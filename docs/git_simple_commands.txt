@@ -1,0 +1,13 @@
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
+
+git clone https://github.com/Kurossa/programming.git
+git add filename
+
+git commit -a -m "Commit description"
+
+git pull
+
+git push
+
+git log -l 1
