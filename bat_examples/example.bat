@@ -1,14 +1,14 @@
 @echo off
 rem Lukasz Glab
+rem swap for english
 
-
-echo "Poczatek zadania"
+echo "Task begining"
 
 GOTO:end
-echo "Srodek zadania"
+echo "Middle task"
 
 :end
-echo "Koniec zadania"
+echo "End of task"
 
 echo %windir%
 
@@ -16,7 +16,7 @@ echo %windir%
 set debug=True
 echo %debug%
 
-rem Kolejnoœæ ma znaczenie
+rem Order is important
 echo %1 %2
 
 if "%1" == "debug" == (
@@ -29,15 +29,15 @@ set debug=False
 GOTO:releasefunction
 )
 
-echo Bledny parametr
+echo Wrong parameter
 GOTO:Trueend
 
 
 :releasefunction
-echo Kompilacja RELEASE %2 debug=%debug%
+echo RELEASE Compilation %2 debug=%debug%
 GOTO:Trueend
 :debugfunction
-echo Kompilacja DEBUG %2 debug=%debug%
+echo DEBUG Compilation %2 debug=%debug%
 GOTO:Trueend
 :Trueend
-@echo Koniec
+@echo End
