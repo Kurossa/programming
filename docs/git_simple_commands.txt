@@ -37,8 +37,9 @@ git log --graph --oneline --decorate --all
 # Show diff form repository and local files
 # From last pushed commit and local files
 git diff HEAD^ HEAD
-#From any commit and local files
-git diff commit_hash HEAD
+# Show changes from exact commit ie commit_id=223344
+git difftool commit_id^ commit_id
+git difftool 223344^ 223344
 
 
 
