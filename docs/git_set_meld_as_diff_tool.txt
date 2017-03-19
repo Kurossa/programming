@@ -1,0 +1,21 @@
+Use "meld" for git difference check
+
+sudo apt-get install meld 
+
+Normaly should work:
+
+git config --global diff.external meld 
+
+But it will fail, as meld will not proceed with passed arguments, that is why it is neede to create script, to solve this problem. Create file meld_diff.py and copy following code:
+
+#!/usr/bin/python 
+import sys 
+import os 
+os.system('meld "%s" "%s"' % (sys.argv[2], sys.argv[5]))
+
+Now we can set Git to perform it's diff on our new script (replacing the path with yours):
+
+git config --global diff.external /home/nathan/diff.py git diff filename 
+
+Try how it works using:
+git diff HEAD^ HEAD
