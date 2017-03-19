@@ -1,5 +1,8 @@
 Use "meld" for git difference check
 
+####################################################################################################################
+1st Solution
+####################################################################################################################
 sudo apt-get install meld 
 
 Normaly should work:
@@ -19,3 +22,24 @@ git config --global diff.external /home/nathan/diff.py git diff filename
 
 Try how it works using:
 git diff HEAD^ HEAD
+
+
+####################################################################################################################
+2nd solution
+####################################################################################################################
+Add folowing section to .gitconfig file at your home folder
+
+[diff]
+    tool = diff_meld
+[difftool]
+    prompt = false
+[difftool "diff_meld"]
+    cmd = meld "$LOCAL" "$REMOTE"
+[merge]
+	tool = merge_meld
+	conflictstyle = diff3
+[mergetool "merge_meld"]
+	cmd = meld --diff $BASE $LOCAL --diff $BASE $REMOTE --diff $LOCAL $BASE $REMOTE $MERGED
+
+Try how it works using:
+git difftool HEAD^ HEAD
