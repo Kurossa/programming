@@ -1,13 +1,44 @@
+# Configure global git parameters:
+# Config user email and name
 git config --global user.email "you@example.com"
 git config --global user.name "Your Name"
 
+# Config external diff tool
+git config --global diff.external /home/mariusz/apps/meld_diff.py
+
+
+# Cloning GIT repository
 git clone https://github.com/Kurossa/programming.git
+
+# Add file to repository
 git add filename
 
+# Commit changes locally 
 git commit -a -m "Commit description"
 
+# Update local repository to HEAD (all new changes) from server
 git pull
 
+# Submit local commits to server
 git push
 
-git log -l 1
+# Show status of local repository (files added, deleted, modified)
+git status
+
+# Show last push commits 
+git log
+
+# Show last i.e. 3 commits
+git log -3
+
+# Show log as grpah with formatting
+git log --graph --oneline --decorate --all
+
+# Show diff form repository and local files
+# From last pushed commit and local files
+git diff HEAD^ HEAD
+#From any commit and local files
+git diff commit_hash HEAD
+
+
+
