@@ -13,6 +13,12 @@ git clone https://github.com/Kurossa/programming.git
 # Add file to repository
 git add filename
 
+# Remove file form repository
+git rm file_name 
+will remove file from rpository but also from disk
+git rm --cached file_name
+wil remove file from repository but it will keep it on disk
+
 # Commit changes locally 
 git commit -a -m "Commit description"
 
@@ -21,6 +27,17 @@ git pull
 
 # Submit local commits to server
 git push
+
+# Remove add file from STAGED list (STAGET means change list not comited)
+git reset HEAD python/first_app/.idea/workspace.xml
+
+# Revert local changes
+all changes
+git checkout .
+from folder
+git checkout folder_name
+from file
+git checkout path_to_file/file_name
 
 # Show status of local repository (files added, deleted, modified)
 git status
@@ -40,6 +57,8 @@ git diff HEAD^ HEAD
 # Show changes from exact commit ie commit_id=223344
 git difftool commit_id^ commit_id
 git difftool 223344^ 223344
+
+
 
 
 
