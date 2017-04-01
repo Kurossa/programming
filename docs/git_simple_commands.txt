@@ -39,6 +39,12 @@ git checkout folder_name
 from file
 git checkout path_to_file/file_name
 
+# Remove untracked files from local repository
+Test what clean will do (only will show result -no action taken)
+git clean -n
+Physically tak clean action
+git clean -f
+
 # Show status of local repository (files added, deleted, modified)
 git status
 
