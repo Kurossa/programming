@@ -2,6 +2,7 @@
 import sys
 import curses
 from curses.textpad import Textbox, rectangle
+import calculator_engine
 from time import sleep
 
 WIDTH = 80
@@ -102,6 +103,7 @@ if __name__ == "__main__":
             window.border(0)
             window.addstr(0, 5, 'Calculator v0.1', curses.color_pair(1))
             window.addstr(1, 1, 'Result:'+result_str)
+            window.addstr(5,1, 'Result from engine: '+calculator_engine.insert_char('d') )
 
             if event_stored > 0 and event_stored < 255:
                 key = filter_char(chr(event_stored))
