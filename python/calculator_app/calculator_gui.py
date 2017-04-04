@@ -13,11 +13,11 @@ COLOR_WHITEONRED = 5
 COLOR_REDONBLUE = 6
 COLOR_WHITEONGREEN = 7
 
-CALC_TITLE = 'Calculator v0.6'
-CALC_WIDTH = 44
-CALC_HEIGHT = 20
-DISP_WIDTH = 42
+CALC_TITLE = 'Calculator v0.8'
 DISP_LINES = 4
+DISP_WIDTH = 42
+CALC_HEIGHT = DISP_LINES + 16
+CALC_WIDTH = DISP_WIDTH + 2
 #TIMEOUT = 100
 ALLOWED_NUMBERS = '0123456789.'
 ALLOWED_FUNCTIONS = '+-*/='
@@ -73,7 +73,15 @@ class HelpWindow(object):
         self.WIDTH = CALC_WIDTH
         self.HEIGHT = CALC_HEIGHT
         self.TITLE = 'Help'
-        self.TEXT = 'test\ntest\ntest'
+        self.TEXT = 'Calculator written by LGlab & Kurossa\n\n' \
+                    '  Used technologies:\n' \
+                    '  - Python3\n' \
+                    '  - Curses module for GUI\n\n' \
+                    '  Key shortcuts:\n' \
+                    '    h - displays help window\n' \
+                    '    ESC or c - Clears display\n' \
+                    '               or Exits help window\n' \
+                    '    q - Quits program'
         self.is_show = False
         self.window = curses.newwin(self.HEIGHT, self.WIDTH, 0, 0)
 
@@ -91,9 +99,9 @@ class HelpWindow(object):
         if(self.is_show):
             self.window.clear()
             self.window.bkgd(curses.color_pair(COLOR_WHITEONRED))
+            self.window.addstr(2, 2, self.TEXT, curses.color_pair(COLOR_WHITEONRED))
             self.window.border(0)
             self.window.addstr(0, 2, self.TITLE, curses.color_pair(COLOR_WHITEONRED))
-            self.window.addstr(1, 1, self.TEXT, curses.color_pair(COLOR_WHITEONRED))
             self.window.refresh()
 
 
@@ -232,21 +240,16 @@ if __name__ == "__main__":
             help_window.render()
             event = main_window.getch()
 
-            if event == 27:
+            if event > 0 and event < 255 and chr(event) == 'h':
+                """h button meaning, Show help Window."""
+                help_window.show()
+            elif event > 0 and event < 255 and ( chr(event) == 'c' or event == 27):
                 if help_window.isShow:
                     help_window.hide()
                 else:
-                    """ESC button meaning, Clear display."""
+                    """ESC or c button meaning, Clear display. If help Window shown, close it."""
                     text_string = ''
                     display_window.clear()
-                    #break
-            elif event > 0 and event < 255 and chr(event) == 'h':
-                """h button meaning, Show help Window."""
-                help_window.show()
-            elif event > 0 and event < 255 and chr(event) == 'c':
-                """ESC or c button meaning, Clear display."""
-                text_string = ''
-                display_window.clear()
             elif event > 0 and event < 255 and chr(event) == 'q':
                 """q button meaning, Exit app."""
                 break
