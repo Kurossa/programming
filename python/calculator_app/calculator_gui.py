@@ -78,10 +78,10 @@ class HelpWindow(object):
                     '  - Python3\n' \
                     '  - Curses module for GUI\n\n' \
                     '  Key shortcuts:\n' \
-                    '    h - displays help window\n' \
-                    '    ESC or c - Clears display\n' \
-                    '               or Exits help window\n' \
-                    '    q - Quits program'
+                    '    h - Show/Hide help window\n' \
+                    '    ESC or c - Clear display\n' \
+                    '               or Exit help window\n' \
+                    '    q - Quit program'
         self.is_show = False
         self.window = curses.newwin(self.HEIGHT, self.WIDTH, 0, 0)
 
@@ -242,7 +242,10 @@ if __name__ == "__main__":
 
             if event > 0 and event < 255 and chr(event) == 'h':
                 """h button meaning, Show help Window."""
-                help_window.show()
+                if help_window.isShow:
+                    help_window.hide()
+                else:
+                    help_window.show()
             elif event > 0 and event < 255 and ( chr(event) == 'c' or event == 27):
                 if help_window.isShow:
                     help_window.hide()
