@@ -68,6 +68,7 @@ class MainWindow(object):
     def getch(self):
         return self.window.getch()
 
+
 class HelpWindow(object):
     def __init__(self):
         self.WIDTH = CALC_WIDTH
@@ -103,7 +104,6 @@ class HelpWindow(object):
             self.window.border(0)
             self.window.addstr(0, 2, self.TITLE, curses.color_pair(COLOR_WHITEONRED))
             self.window.refresh()
-
 
 
 class DisplayWindow(object):
