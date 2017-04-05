@@ -14,7 +14,7 @@ math_result = 0.0
 
 def filter_char(char):
     global number_1
-    return char
+    return char+'1'
     # if char == 1234567890.-+*/=
     #   return char
     # else
