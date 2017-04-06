@@ -9,7 +9,8 @@
 
 def main():
     char = 3
-    print (type(char))
+    print(char)
+    print(type(char))
 
-if __name__ == "main":
+if __name__ == "__main__":
     main()
