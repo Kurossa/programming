@@ -8,8 +8,14 @@
 #USE ANY HELP YOU WANT (INTERNET, BOOKS) BUT PLEASE DO NOT COPY CODE, BUT REWRITE IT BY YOUR SELF LETER BY LETER.
 
 def main():
-    char = 3
-    print (type(char))
+    var_string = 'Hello'
+    var_int = -56
+    var_float = 3.14
+    var_bool = True
+    print(var_string,type(var_string))
+    print(var_int, type(var_int))
+    print(var_float, type(var_float))
+    print(var_bool, type(var_bool))
 
-if __name__ == "main":
+if __name__ == "__main__":
     main()
