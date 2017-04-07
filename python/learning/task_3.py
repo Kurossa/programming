@@ -13,7 +13,7 @@ def searching_number(number_search):
     global number
     if number_search > number:
         print("The number you're looking for is to big. Try again:")
-        searching_number(number_search)
+        main()
     elif number_search < number:
         print("The number you're looking for is to small. Try again:")
     else:
