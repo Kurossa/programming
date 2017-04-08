@@ -7,24 +7,24 @@
 
 number = 143
 
-#def searching_number():
+def check():
+    number_search = input()
+    number_search = int(number_search)
+    searching_number(number_search)
 
 def searching_number(number_search):
     global number
     if number_search > number:
         print("The number you're looking for is to big. Try again:")
-        main()
     elif number_search < number:
         print("The number you're looking for is to small. Try again:")
     else:
         print("Yes! This is the number!")
         return (number)
+    check()
 
-def main ():
-    number_search = input()
-    number_search = int(number_search)
-    searching_number(number_search)
-
+def main():
+    check()
 
 if __name__ == "__main__":
     main()
