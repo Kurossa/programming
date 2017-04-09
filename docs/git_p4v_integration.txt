@@ -1,0 +1,31 @@
+# Download HELIX P4V: VISUAL CLIENT
+https://www.perforce.com/downloads/helix
+
+# Unpack /bin and /lib folders from archive to /opt/p4v ; Create /opt if not present, in /opt create dir p4v
+
+# Create symbolic link to /usr/local/bin so you can use command everywhere
+ln -s /opt/p4v/bin/p4merge /usr/local/bin/p4merge
+
+# Copy this section to your .gitconfig file:
+[merge]
+    keepBackup = false;
+    tool = p4merge
+[mergetool]
+    prompt = false
+[mergetool "p4merge"]
+    cmd = p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
+    keepTemporaries = false
+    trustExitCode = false
+    keepBackup = false
+[diff]
+    tool = p4merge
+[difftool]
+    prompt = false
+[difftool "p4merge"]
+    cmd = p4merge "$LOCAL" "$REMOTE"
+    keepTemporaries = false
+    trustExitCode = false
+    keepBackup = false
+
+
+# Done, now diff and merge GUI tool should work!
