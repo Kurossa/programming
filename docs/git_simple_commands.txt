@@ -54,6 +54,9 @@ git log
 # Show last i.e. 3 commits
 git log -3
 
+# Show committed changes but not pushed to server
+git log origin/master..master
+
 # Show log as grpah with formatting
 git log --graph --oneline --decorate --all
 
