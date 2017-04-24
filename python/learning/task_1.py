@@ -9,12 +9,16 @@
 
 def main():
     var_string = 'hello world'
-    var_int = -56
+    var_int = 97
     var_float = 3.14
     var_bool = True
     one = '-'
 
-    var_print_summmary = "Value is: " + var_string.capitalize() + " And when you shout it look like: " + var_string.upper() + " You can spell it like: ", var_string.zfill(15), " type of: ", type(var_string),
+    var_print_summmary = "Value is: " + var_string.capitalize() + " And when you shout it look like: " \
+                         + var_string.upper() + " You can spell it like: " + var_string.zfill(15) + " type of: " \
+                         + str(type(var_string)) + "  " + str(var_int) + "  " + str(ord('a')) +chr(var_int) + str(var_int).zfill(5)
+
+
     print(var_print_summmary)
     print(var_string,type(var_string))
 
