@@ -7,15 +7,14 @@
 #USE ANY HELP YOU WANT (INTERNET, BOOKS) BUT PLEASE DO NOT COPY CODE, BUT REWRITE IT BY YOUR SELF LETER BY LETER.
 import random
 
+
 def searching_number(random_n):
     print('Gues a number:')
     number_s = input()
-
     if (not number_s.isnumeric()):
         print('Give a nnumber you jerk.')
         return True
     number_s = int(number_s)
-
     if number_s > random_n:
         print("The number you're looking for is to big. Try again:")
         return True
@@ -37,11 +36,22 @@ def multiply_numbers(num_1, num_2):
         return 'Error: 2nd param is not a number'
     return num_1*num_2
 
+
 def main():
     random_number = random.randint(0,9)
-
-    while (searching_number(random_number)):
+    tries = 3
+    print('You have ',tries,' tries')
+    while tries > 0:
+        (searching_number(random_number))
+        tries -= 1
+        if tries == 0:
+            print('You failed to guess a number')
+        else:
+            print ('You have ',tries,' tries left')
         continue
+
+
+
 
     print('End of transmission...')
 
