@@ -16,13 +16,13 @@ def searching_number(random_n):
         return True
     number_s = int(number_s)
     if number_s > random_n:
-        print("The number you're looking for is to big. Try again:")
+        print("The number you're looking for is to big.")
         return True
     elif number_s < random_n:
-        print("The number you're looking for is to small. Try again:")
+        print("The number you're looking for is to small.")
         return True
     else:
-        print("Yes! This is the number!")
+        print("Congratulations! This is the number!")
         return False
 
 
@@ -36,20 +36,34 @@ def multiply_numbers(num_1, num_2):
         return 'Error: 2nd param is not a number'
     return num_1*num_2
 
+#HIGHLIGHT LINES AND USE CTRL+/ TO QUICKLY COMMENT/UNCOMMENT IN PYCHARM
 
+# main using "while" for number of tries
+# def main():
+#     random_number = random.randint(0,9)
+#     tries = 3
+#     print('You have ',tries,' tries')
+#     while tries > 0:
+#         if searching_number(random_number) == False:
+#             break
+#         tries -= 1
+#         if tries == 0:
+#             print('Game over. You failed to guess a number. Searched number was:',random_number)
+#         else:
+#             print ('Try again. You have ',tries,' tries left')
+
+
+
+#main using "for" for number of tries
 def main():
-    random_number = random.randint(0,9)
+    random_number = random.randint(0, 9)
     tries = 3
-    print('You have ',tries,' tries')
-    while tries > 0:
-        (searching_number(random_number))
-        tries -= 1
-        if tries == 0:
-            print('You failed to guess a number')
-        else:
-            print ('You have ',tries,' tries left')
-        continue
-
+    for i in reversed(range(tries)):
+        print('You have ',i+1,'tries left')
+        if searching_number(random_number) == False:
+            break
+        if i == 0:
+            print('Game over. You failed to guess a number. Searched number was:',random_number)
 
 
 
