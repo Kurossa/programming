@@ -5,3 +5,18 @@
 # But to practice more find algorithm how to do it and try to implement it. 
 
 #USE ANY HELP YOU WANT (INTERNET, BOOKS) BUT PLEASE DO NOT COPY CODE, BUT REWRITE IT BY YOUR SELF LETER BY LETER.
+
+import random
+
+
+def main():
+    numbers_list = []
+    random_number = random.randint(0, 100)
+
+    while len(numbers_list) == 19:
+    numbers_list.append(random_number)
+    print(numbers_list)
+
+
+if __name__ == "__main__":
+    main()
