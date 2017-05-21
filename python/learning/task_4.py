@@ -8,13 +8,15 @@
 
 import random
 
+def sort_list():
+    
+
 
 def main():
     numbers_list = []
-    random_number = random.randint(0, 100)
-
-    while len(numbers_list) == 19:
-    numbers_list.append(random_number)
+    #while len(numbers_list) <= 19:
+    for i in range(20):
+        numbers_list.append(random.randint(0, 100))
     print(numbers_list)
 
 
