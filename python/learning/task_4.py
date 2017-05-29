@@ -9,27 +9,39 @@
 import random
 
 
-def sort_list():
-    numbers_list = [25, 13, 5, 0, 4, 4, 22]
-    sorted_list = []
-    while numbers_list:
-        minimum = numbers_list[0]
-        for i in numbers_list:
-            if i <= minimum:
-                minimum = i
-        sorted_list.append(minimum)
-        numbers_list.remove(minimum)
-    print(sorted_list)
+class MakeSortList:
+
+    def __init__(self, range_min, range_max):
+        self.min = range_min
+        self.max = range_max
+        self.list_length = 20
+        self.numbers_list = []
+
+
+    def random_list (self):
+        for i in range(20):
+            self.numbers_list.append(random.randint(self.min, self.max))
+        print(self.numbers_list)
+
+
+    def sort_list(self):
+        numbers_list = self.numbers_list
+        sorted_list = []
+        while numbers_list:
+            minimum = numbers_list[0]
+            for i in numbers_list:
+                if i <= minimum:
+                    minimum = i
+            sorted_list.append(minimum)
+            numbers_list.remove(minimum)
+        print(sorted_list)
 
 
 def main():
-    numbers_list = []
-    #while len(numbers_list) <= 19:
-    for i in range(20):
-        numbers_list.append(random.randint(0, 100))
-    print(numbers_list)
+    list = MakeSortList(0, 100)
+    list.random_list()
+    list.sort_list()
 
 
 if __name__ == "__main__":
     main()
-    sort_list()
