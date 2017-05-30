@@ -11,21 +11,23 @@ import random
 
 class MakeSortList:
 
+
     def __init__(self, range_min, range_max,list_lenght):
         self.min = range_min
         self.max = range_max
         self.list_length = list_lenght
-        self.numbers_list = []
 
 
     def random_list (self):
+        numbers_list = []
         for i in range(self.list_length):
-            self.numbers_list.append(random.randint(self.min, self.max))
-        print(self.numbers_list)
+            numbers_list.append(random.randint(self.min, self.max))
+        #print(self.numbers_list)
+        return numbers_list
 
 
-    def sort_list(self):
-        numbers_list = self.numbers_list
+    def sort_list(self, list_to_sort):
+        numbers_list = list_to_sort
         sorted_list = []
         while numbers_list:
             minimum = numbers_list[0]
@@ -34,13 +36,15 @@ class MakeSortList:
                     minimum = i
             sorted_list.append(minimum)
             numbers_list.remove(minimum)
-        print(sorted_list)
+        return sorted_list
 
 
 def main():
-    list = MakeSortList(0, 100, 20)
-    list.random_list()
-    list.sort_list()
+    sort_list_obj = MakeSortList(0, 100, 20)
+    my_numbers = sort_list_obj.random_list()
+    print(my_numbers)
+    my_numbers = sort_list_obj.sort_list(my_numbers)
+    print(my_numbers)
 
 
 if __name__ == "__main__":
