@@ -11,15 +11,15 @@ import random
 
 class MakeSortList:
 
-    def __init__(self, range_min, range_max):
+    def __init__(self, range_min, range_max,list_lenght):
         self.min = range_min
         self.max = range_max
-        self.list_length = 20
+        self.list_length = list_lenght
         self.numbers_list = []
 
 
     def random_list (self):
-        for i in range(20):
+        for i in range(self.list_length):
             self.numbers_list.append(random.randint(self.min, self.max))
         print(self.numbers_list)
 
@@ -38,7 +38,7 @@ class MakeSortList:
 
 
 def main():
-    list = MakeSortList(0, 100)
+    list = MakeSortList(0, 100, 20)
     list.random_list()
     list.sort_list()
 
