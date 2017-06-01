@@ -60,8 +60,9 @@ git log origin/master..master
 # Show log as grpah with formatting
 git log --graph --oneline --decorate --all
 
-# Show diff form repository and local files
-# From last pushed commit and local files
+# Show diff form local files (staged)
+git diff or git difftool
+# From last pushed commit
 git diff HEAD^ HEAD
 # Show changes from exact commit ie commit_id=223344
 git difftool commit_id^ commit_id
