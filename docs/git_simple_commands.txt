@@ -62,7 +62,7 @@ git log --graph --oneline --decorate --all
 
 # Show diff form local files (staged)
 git diff or git difftool
-# From last pushed commit
+# From last commit and master or if nothing commited last pushed version
 git diff HEAD^ HEAD
 # Show changes from exact commit ie commit_id=223344
 git difftool commit_id^ commit_id
