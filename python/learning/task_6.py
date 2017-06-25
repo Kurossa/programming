@@ -22,27 +22,28 @@
 import os
 import time
 
+
 class CpuUsage:
+    def __init__(self, time):
+        self.time = time
+        self.cpu_data = []
 
-    def __init__ (self):
-        self.getcpuusage()
+    def cpu_usage_return(self):
+        data = os.popen('mpstat').read()
+        self.cpu_data = data[183:189]
+        return self.cpu_data
 
-
-    def getcpuusage(self):
-        data = os.popen("mpstat").read()
-        cpu = data[183:189]
-        times = 10
-        while times > 0:
-            #print("CPU Usage = " + cpuusage)
-            times = times - 1
-            time.sleep(2)
-        return cpu
-
+    def cpu_usage_print(self):
+        while self.time > 0:
+            self.time -= 1
+            return self.cpu_data
 
 
 def main():
-    usage = CpuUsage.getcpuusage()
-    print(usage)
+    usage = CpuUsage(10)
+    usaged = usage.cpu_usage_print()
+    print(usaged)
+
 
 if __name__ == "__main__":
     main()
