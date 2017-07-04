@@ -38,13 +38,21 @@ class CpuUsage:
         data = os.popen('mpstat').read()
         self.cpu_data = data[183:189]
         # You could convert it here from string to int so return value will be number ;)
-        return self.cpu_data
+        new_cpu_data = self.cpu_data.replace(',', '.')
+        new_cpu_data = float(new_cpu_data)
+        #new_cpu_data = int(new_cpu_data)
+        return new_cpu_data
 
+
+    def times_protection(self):
+        if self.default_times <= 0:
+            return True
 
     def read_and_decrease_times(self):
         # First you read the value than you decrease it and return not decreased value
         retval = self.times
         self.times -= 1
+
         # You coud add protection of seting negative values
         # if self.times < 0
         #     self.times = 0
@@ -54,17 +62,8 @@ class CpuUsage:
     def reset_times(self):
         self.times = self.default_times
 
-
-    def print_cpu_usage(self):
-        while self.times>0:
-            self.times-=1
-            # This will run onyl once as return will exit from function and while loop will be interruped
-            # Wrong way of using return
-            return cpu_data.get_cpu_usage()
-
-
 def main():
-    cpu_usage = CpuUsage(5)
+    cpu_usage = CpuUsage(10)
     usage = cpu_usage.get_cpu_usage()
     print(usage)
 
@@ -73,18 +72,22 @@ def main():
     # It is nothing bad in using internal fields of class like cpu_usage.time, but it is not elegant
     # I would suggest function that will decrease and read times value and returns it
     # see corected while loop below
-    print('Your loop')
-    while cpu_usage.times > 0:
-        print(usage)
-        cpu_usage.times-=1
-        time.sleep(2)
+    #print('Your loop')
+    #while cpu_usage.times > 0:
+    #    print(usage)
+    #    cpu_usage.times -= 1
+    #    time.sleep(2)
+
 
     # It should be done like this
     print('My loop')
-    cpu_usage.reset_times()
-    while cpu_usage.read_and_decrease_times():
-        print(cpu_usage.get_cpu_usage())
-        time.sleep(2)
+    if cpu_usage.times_protection() == True:
+        print ("Program STOP. Error: Repeat value needs to be at least one.")
+    else:
+        cpu_usage.reset_times()
+        while cpu_usage.read_and_decrease_times():
+            print(cpu_usage.get_cpu_usage())
+            time.sleep(2)
 
 
 if __name__ == "__main__":
