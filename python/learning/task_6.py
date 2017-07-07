@@ -65,7 +65,9 @@ class CpuUsage:
 
     def print_bar_of_cpu_usage(self):
         self.print_bar = int(self.print_bar)
-        retval = "#"*self.print_bar
+        print_bar_length = 10
+        print_bar_rest = print_bar_length - self.print_bar
+        retval = "#"*self.print_bar + " "*print_bar_rest
         return retval
 
 def main():
@@ -92,7 +94,7 @@ def main():
     else:
         cpu_usage.reset_times()
         while cpu_usage.read_and_decrease_times():
-            print("Cpu Usage: ", cpu_usage.get_cpu_usage(), cpu_usage.print_bar_of_cpu_usage())
+            print("Cpu Usage: ", cpu_usage.get_cpu_usage(),"[ ", cpu_usage.print_bar_of_cpu_usage()," ]")
             time.sleep(2)
 
 
