@@ -34,3 +34,32 @@
 #
 # Create function to sort person list by height and print that list using function from subtask 3
 #
+class Person:
+
+    def __init__(self, name, surname, age, height):
+        self.name = name
+        self.surname = surname
+        self.age = age
+        self.height = height
+
+    def get_name(self):
+        return self.name
+
+    def get_surname(self):
+        return self.surname
+
+    def get_age(self):
+        return self.age
+
+    def get_height(self):
+        return self.height
+
+#    def __str__(self):
+#        return 'Person'
+
+def main():
+    lukasz = Person('Łukasz', 'Glab', 36, 178)
+    print(lukasz.get_height())
+
+if __name__ == "__main__":
+    main()

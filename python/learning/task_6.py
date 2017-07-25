@@ -21,7 +21,6 @@
 
 #!/usr/bin/python3
 
-import sys
 import os
 import time
 
@@ -72,7 +71,7 @@ class CpuUsage:
         return retval
 
 def main():
-    cpu_usage = CpuUsage(6)
+    cpu_usage = CpuUsage(100)
     usage = cpu_usage.get_cpu_usage()
     print(usage)
 
@@ -95,7 +94,7 @@ def main():
     else:
         cpu_usage.reset_times()
         while cpu_usage.read_and_decrease_times():
-            print("\rCpu Usage: ", cpu_usage.get_cpu_usage(),"[",cpu_usage.print_bar_of_cpu_usage(),"]",end="", flush=True)
+            print("\rCpu Usage: ", cpu_usage.get_cpu_usage(), "[",cpu_usage.print_bar_of_cpu_usage(), "]",end="", flush=True)
             time.sleep(2)
 
 
