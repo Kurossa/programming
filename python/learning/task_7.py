@@ -34,8 +34,9 @@
 #
 # Create function to sort person list by height and print that list using function from subtask 3
 #
-class Person:
+import random
 
+class Person:
     def __init__(self, name, surname, age, height):
         self.name = name
         self.surname = surname
@@ -59,6 +60,7 @@ class Person:
 
 def main():
     lukasz = Person('Łukasz', 'Glab', 36, 178)
+    print(lukasz.get_name())
     print(lukasz.get_height())
 
 if __name__ == "__main__":

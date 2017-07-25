@@ -32,16 +32,19 @@ class CpuUsage:
         self.default_times = times
         self.times = times
         self.cpu_data = []
-        self.print_bar = self.get_cpu_usage()
+        self.last_cpu_usage = 0
 
 
-    def get_cpu_usage(self):
-        data = os.popen('mpstat').read()
+    def get_cpu_usage(self,interv):
+        cmd = 'mpstat 1 '
+        cmd += str(interv)
+        data = os.popen(cmd).read()
         self.cpu_data = data[183:189]
         # You could convert it here from string to int so return value will be number ;)
         new_cpu_data = self.cpu_data.replace(',', '.')
         new_cpu_data = float(new_cpu_data)
         #new_cpu_data = int(new_cpu_data)
+        self.last_cpu_usage = new_cpu_data
         return new_cpu_data
 
 
@@ -63,17 +66,20 @@ class CpuUsage:
     def reset_times(self):
         self.times = self.default_times
 
-    def print_bar_of_cpu_usage(self):
-        self.print_bar = int(self.print_bar)
-        print_bar_length = 10
-        print_bar_rest = print_bar_length - self.print_bar
-        retval = "#"*self.print_bar + " "*print_bar_rest
+
+    # This function prints bar based on last self.get_cpu_usage value
+    def print_bar_of_cpu_usage(self, bar_length):
+        #self.last_cpu_usage = self.get_cpu_usage(1)
+        print_bar_length = bar_length
+        print_bar_front = int(self.last_cpu_usage/100*print_bar_length)
+        print_bar_back = print_bar_length - print_bar_front
+        retval = "["
+        retval += "#"*print_bar_front + " "*print_bar_back
+        retval += "]"
         return retval
 
 def main():
-    cpu_usage = CpuUsage(100)
-    usage = cpu_usage.get_cpu_usage()
-    print(usage)
+    cpu_usage = CpuUsage(10)
 
     # This will not work correctly, as usage will be get only once and print same value 10 times
     # To do it right you need to read usage each time in loop, then print
@@ -94,8 +100,8 @@ def main():
     else:
         cpu_usage.reset_times()
         while cpu_usage.read_and_decrease_times():
-            print("\rCpu Usage: ", cpu_usage.get_cpu_usage(), "[",cpu_usage.print_bar_of_cpu_usage(), "]",end="", flush=True)
-            time.sleep(2)
+            print("\rCpu Usage: ", cpu_usage.get_cpu_usage(1), cpu_usage.print_bar_of_cpu_usage(25),end="", flush=True)
+
 
 
 if __name__ == "__main__":
