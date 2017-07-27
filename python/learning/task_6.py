@@ -40,6 +40,8 @@ class CpuUsage:
         match = re.search(r'..all........', data)
         if match:
             data = match.group()[7:]
+        else:
+            return -1.0
         self.cpu_data = data
         # You could convert it here from string to int so return value will be number ;)
         new_cpu_data = self.cpu_data.replace(',', '.')

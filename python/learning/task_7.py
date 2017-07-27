@@ -62,26 +62,36 @@ class Person:
 class RandomPerson:
 
     def get_name(self):
-        names = ['Andrzej', 'Michał', 'Monika', 'Iza']
+        names = ['Andrzej', 'Michał', 'Monika', 'Iza', 'Piotr']
         random_name = random.choice(names)
         return random_name
+
+    def get_surname(self):
+        surnames = ['Kowalik', 'Gad', 'Nowak', 'Rogala', 'Kwiecień']
+        random_surname = random.choice(surnames)
+        return random_surname
 
     def get_age(self):
         age = random.randint(20, 70)
         return age
+
+    def get_height(self):
+        height = random.randint(160, 210)
+        return height
 
 def main():
     lukasz = Person('Łukasz', 'Glab', 36, 178)
     print(lukasz.get_name())
 
     rand_person = RandomPerson()
-    name = rand_person.get_name()
-    age = rand_person.get_age()
-    print(name)
-    print(age)
-    person1 = Person(rand_person.get_name(),rand_person.get_name(), rand_person.get_age(), rand_person.get_age())
-    print(person1.get_name(), person1.get_age())
-    personslist = []
+    persons_quantity = 10
+    for i in range(persons_quantity):
+        person = Person(rand_person.get_name(), rand_person.get_surname(), rand_person.get_age(),
+                         rand_person.get_height())
+        person_full = person.get_name(), person.get_surname(), person.get_age(), person.get_height()
+        personslist = (i+1, person_full)
+        print(personslist)
+
 
 if __name__ == "__main__":
     main()
