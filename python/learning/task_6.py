@@ -19,10 +19,8 @@
       #print (data)
       #cpu_usage.PrintCpuUsageBar(data)
 
-#!/usr/bin/python3
-
 import os
-import time
+import re
 
 class CpuUsage:
 
@@ -39,7 +37,10 @@ class CpuUsage:
         cmd = 'mpstat 1 '
         cmd += str(interv)
         data = os.popen(cmd).read()
-        self.cpu_data = data[183:189]
+        match = re.search(r'..all........', data)
+        if match:
+            data = match.group()[7:]
+        self.cpu_data = data
         # You could convert it here from string to int so return value will be number ;)
         new_cpu_data = self.cpu_data.replace(',', '.')
         new_cpu_data = float(new_cpu_data)
@@ -100,7 +101,7 @@ def main():
     else:
         cpu_usage.reset_times()
         while cpu_usage.read_and_decrease_times():
-            print("\rCpu Usage: ", cpu_usage.get_cpu_usage(1), cpu_usage.print_bar_of_cpu_usage(25),end="", flush=True)
+            print("\rCpu Usage: ", '{:06.2f}'.format(cpu_usage.get_cpu_usage(1)), cpu_usage.print_bar_of_cpu_usage(25),end="", flush=True)
 
 
 

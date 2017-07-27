@@ -37,6 +37,7 @@
 import random
 
 class Person:
+
     def __init__(self, name, surname, age, height):
         self.name = name
         self.surname = surname
@@ -58,10 +59,29 @@ class Person:
 #    def __str__(self):
 #        return 'Person'
 
+class RandomPerson:
+
+    def get_name(self):
+        names = ['Andrzej', 'Michał', 'Monika', 'Iza']
+        random_name = random.choice(names)
+        return random_name
+
+    def get_age(self):
+        age = random.randint(20, 70)
+        return age
+
 def main():
     lukasz = Person('Łukasz', 'Glab', 36, 178)
     print(lukasz.get_name())
-    print(lukasz.get_height())
+
+    rand_person = RandomPerson()
+    name = rand_person.get_name()
+    age = rand_person.get_age()
+    print(name)
+    print(age)
+    person1 = Person(rand_person.get_name(),rand_person.get_name(), rand_person.get_age(), rand_person.get_age())
+    print(person1.get_name(), person1.get_age())
+    personslist = []
 
 if __name__ == "__main__":
     main()
