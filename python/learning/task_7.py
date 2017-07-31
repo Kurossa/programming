@@ -48,13 +48,13 @@ class Person:
         return self.name
 
     def get_surname(self):
-        return self.surname
+        return str(self.surname)+': '
 
     def get_age(self):
-        return self.age
+        return str(self.age)+' lat'
 
     def get_height(self):
-        return self.height
+        return str(self.height)+' cm'
 
 #    def __str__(self):
 #        return 'Person'
@@ -84,13 +84,15 @@ def main():
     print(lukasz.get_name())
 
     rand_person = RandomPerson()
+    personslist = []
     persons_quantity = 10
     for i in range(persons_quantity):
         person = Person(rand_person.get_name(), rand_person.get_surname(), rand_person.get_age(),
                          rand_person.get_height())
-        person_full = person.get_name(), person.get_surname(), person.get_age(), person.get_height()
-        personslist = (i+1, person_full)
-        print(personslist)
+        person_full = i+1, person.get_name(), person.get_surname(), person.get_age(), person.get_height()
+#        person_full = str(person_full)
+        personslist.append(person_full)
+    print(personslist)
 
 
 if __name__ == "__main__":
