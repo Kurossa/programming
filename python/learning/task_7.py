@@ -99,7 +99,10 @@ def main():
         return persons_list
 
     for i, n in enumerate (get_persons_list()):
-        print(i+1, n)
+        list_numbered = i+1, n
+        list_numbered = str(list_numbered)
+        list_numbered = list_numbered.replace('(', '').replace(')', '').replace("'", "").replace(',', '')
+        print(list_numbered)
 
     #print(get_person())
     #print(get_persons_list())
