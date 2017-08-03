@@ -48,7 +48,11 @@ class Person:
         return str(self.name)
 
     def get_surname(self):
+<<<<<<< HEAD
         return str(self.surname)+':'
+=======
+        return str(self.surname)+': '
+>>>>>>> 65898fcd131511f2369334adeb2a14e4212de4cf
 
     def get_age(self):
         return str(self.age)+' lat'
@@ -80,6 +84,7 @@ class RandomPerson:
         return height
 
 def main():
+<<<<<<< HEAD
 #    rand_person = RandomPerson()
 #    person_info = Person()
     persons_quantity = 10
@@ -104,6 +109,21 @@ def main():
     #print(get_person())
     #print(get_persons_list())
 
+=======
+    lukasz = Person('Łukasz', 'Glab', 36, 178)
+    print(lukasz.get_name())
+
+    rand_person = RandomPerson()
+    personslist = []
+    persons_quantity = 10
+    for i in range(persons_quantity):
+        person = Person(rand_person.get_name(), rand_person.get_surname(), rand_person.get_age(),
+                         rand_person.get_height())
+        person_full = i+1, person.get_name(), person.get_surname(), person.get_age(), person.get_height()
+#        person_full = str(person_full)
+        personslist.append(person_full)
+    print(personslist)
+>>>>>>> 65898fcd131511f2369334adeb2a14e4212de4cf
 
 
 if __name__ == "__main__":
