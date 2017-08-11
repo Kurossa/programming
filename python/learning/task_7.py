@@ -54,7 +54,7 @@ class Person:
         return self.surname
 
     def get_age(self):
-        return self.age
+        return str(self.age) + 'lat'
 
     def get_height(self):
         return self.height
@@ -104,17 +104,16 @@ def main():
         return persons_list
 
     persons_true = get_persons_list()
-    print(get_persons_list())
     print(sorted(persons_true, key=lambda person: person.get_age()))
     print(sorted(persons_true, key=lambda person: person.get_height()))
 
-    for i, n in enumerate(sorted(persons_true, key=lambda person: person.get_age())):
-            list_numbered = i+1, n
-            list_numbered = str(list_numbered)
-            list_numbered = list_numbered.replace('(', '').replace(')', '').replace("'", "").replace(',', '')
-            print(list_numbered)
+    # for i, n in enumerate(sorted(persons_true, key=lambda person: person.get_age())):
+    #         list_numbered = i+1, n
+    #         list_numbered = str(list_numbered)
+    #         list_numbered = list_numbered.replace('(', '').replace(')', '').replace("'", "").replace(',', '')
+    #         print(list_numbered)
 
-
+    print(list(enumerate(sorted(persons_true, key=lambda person: person.get_age()), start=1)))
 
 if __name__ == "__main__":
     main()
