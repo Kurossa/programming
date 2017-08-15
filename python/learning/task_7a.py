@@ -54,66 +54,80 @@ class Person:
         return self.surname
 
     def get_age(self):
-        return str(self.age) + 'lat'
+        return self.age
 
     def get_height(self):
         return self.height
 
-#    def __str__(self):
-#        return 'Person'
-
 class RandomPerson:
+    def __init__(self,
+                 names_list = ['Andrzej', 'Michał', 'Monika', 'Iza', 'Piotr'],
+                 surname_list = ['Kowalik', 'Gad', 'Nowak', 'Rogala', 'Kwiecień'],
+                 age_min = 20,
+                 age_max = 70,
+                 height_min = 160,
+                 height_max = 210):
+        self.names = names_list
+        self.surnames = surname_list
+        self.age_min = age_min
+        self.age_max = age_max
+        self.height_min = height_min
+        self.height_max = height_max
 
-    def get_name(self):
-        names = ['Andrzej', 'Michał', 'Monika', 'Iza', 'Piotr']
-        random_name = random.choice(names)
-        return random_name
+    def get_name(self): 
+        return random.choice(self.names)
 
-    def get_surname(self):
-        surnames = ['Kowalik', 'Gad', 'Nowak', 'Rogala', 'Kwiecień']
-        random_surname = random.choice(surnames)
-        return random_surname
+    def get_surname(self): 
+        return random.choice(self.surnames)
 
     def get_age(self):
-        age = random.randint(20, 70)
+        age = random.randint(self.age_min, self.age_max)
         return age
 
     def get_height(self):
-        height = random.randint(160, 210)
+        height = random.randint(self.height_min, self.height_max)
         return height
 
+    def get_random_person(self):
+        return Person(self.get_name(), self.get_surname(), self.get_age(), self.get_height())
+
+
+def get_random_persons_list(length, random_person = RandomPerson()):
+    persons_list = []
+    for i in range(length):
+        person = random_person.get_random_person()
+        persons_list.append(person)
+    return persons_list
+
+
+def print_persons_list(persons_list):
+    for i in range(len(persons_list)):
+        print('Person No' + str(i) +
+              ': Name: ' + persons_list[i].get_name() +
+              ' ' + persons_list[i].get_surname() +
+              ', age: ' + str(persons_list[i].get_age()) + 
+              'years, height: ' + str(persons_list[i].get_height()) + 'cm')
+
+
+def sort_and_print(persons_list):
+    persons_list_sorted_by_age = sorted(persons_list, key=lambda person: person.get_age())
+    persons_list_sorted_by_height = sorted(persons_list, key=lambda person: person.get_height())
+
+    print('Random Persons list:')
+    print_persons_list(persons_list)
+    print('Sorted by age:')
+    print_persons_list(persons_list_sorted_by_age)
+    print('Sorted by height:')
+    print_persons_list(persons_list_sorted_by_height)
+
+
 def main():
-#    rand_person = RandomPerson()
-#    person_info = Person()
-    persons_quantity = 10
-    rand_person = RandomPerson()
+    persons_list = get_random_persons_list(10)
+    sort_and_print(persons_list)
 
-    # def get_person():
-    #     rand_person = RandomPerson()
-    #     person = Person(rand_person.get_name(), rand_person.get_surname(), rand_person.get_age(), rand_person.get_height())
-    #     person_full = person.get_name(), person.get_surname(), person.get_age(), person.get_height()
-    #     #person_dic = {'n':person_full[0], 's':person_full[1], 'a':person_full[2], 'h':person_full[3]}
-    #     return person_full
+    persons_list = get_random_persons_list(10, RandomPerson(['Ann', 'Marry', 'Helen'] , ['Doe', 'Unknown', 'Prince'] , 30, 50, 150, 180))
+    sort_and_print(persons_list)
 
-    def get_persons_list():
-        persons_list = []
-        for i in range(persons_quantity):
-            person = Person(rand_person.get_name(), rand_person.get_surname(), rand_person.get_age(),
-                            rand_person.get_height())
-            persons_list.append(person)
-        return persons_list
-
-    persons_true = get_persons_list()
-    print(sorted(persons_true, key=lambda person: person.get_age()))
-    print(sorted(persons_true, key=lambda person: person.get_height()))
-
-    # for i, n in enumerate(sorted(persons_true, key=lambda person: person.get_age())):
-    #         list_numbered = i+1, n
-    #         list_numbered = str(list_numbered)
-    #         list_numbered = list_numbered.replace('(', '').replace(')', '').replace("'", "").replace(',', '')
-    #         print(list_numbered)
-
-    print(list(enumerate(sorted(persons_true, key=lambda person: person.get_age()), start=1)))
 
 if __name__ == "__main__":
     main()
