@@ -54,7 +54,7 @@ class Person:
         return self.surname
 
     def get_age(self):
-        return str(self.age) + 'lat'
+        return str(self.age)
 
     def get_height(self):
         return self.height
@@ -88,6 +88,11 @@ def main():
     persons_quantity = 10
     rand_person = RandomPerson()
 
+    def get_persons_full():
+        person = Person(rand_person.get_name(), rand_person.get_surname(), rand_person.get_age(),
+                            rand_person.get_height())
+        return person
+
     # def get_person():
     #     rand_person = RandomPerson()
     #     person = Person(rand_person.get_name(), rand_person.get_surname(), rand_person.get_age(), rand_person.get_height())
@@ -97,10 +102,9 @@ def main():
 
     def get_persons_list():
         persons_list = []
+        person_full = get_persons_full()
         for i in range(persons_quantity):
-            person = Person(rand_person.get_name(), rand_person.get_surname(), rand_person.get_age(),
-                            rand_person.get_height())
-            persons_list.append(person)
+            persons_list.append(person_full)
         return persons_list
 
     persons_true = get_persons_list()
