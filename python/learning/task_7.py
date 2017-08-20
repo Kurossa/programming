@@ -59,6 +59,9 @@ class Person:
     def get_height(self):
         return self.height
 
+    def print_str(self):
+
+
 #    def __str__(self):
 #        return 'Person'
 

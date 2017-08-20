@@ -35,6 +35,8 @@
 # Create function to sort person list by height and print that list using function from subtask 3
 #
 import random
+from random import randint as rndint
+from random import choice as rndchoice
 
 class Person:
 
@@ -43,9 +45,6 @@ class Person:
         self.surname = surname
         self.age = age
         self.height = height
-
-    def __repr__(self):
-        return repr((self.name, self.surname, self.age, self.height))
 
     def get_name(self):
         return self.name
@@ -58,6 +57,13 @@ class Person:
 
     def get_height(self):
         return self.height
+
+    def print_str(self, person_no):
+        print('Person No' + str(person_no) +
+              ': Name: ' + self.get_name() +
+              ' ' + self.get_surname() +
+              ', age: ' + str(self.get_age()) +
+              'years, height: ' + str(self.get_height()) + 'cm')
 
 class RandomPerson:
     def __init__(self,
@@ -73,6 +79,9 @@ class RandomPerson:
         self.age_max = age_max
         self.height_min = height_min
         self.height_max = height_max
+
+    def set_new_names(self,name_list):
+        self.names = name_list
 
     def get_name(self): 
         return random.choice(self.names)
@@ -102,11 +111,8 @@ def get_random_persons_list(length, random_person = RandomPerson()):
 
 def print_persons_list(persons_list):
     for i in range(len(persons_list)):
-        print('Person No' + str(i) +
-              ': Name: ' + persons_list[i].get_name() +
-              ' ' + persons_list[i].get_surname() +
-              ', age: ' + str(persons_list[i].get_age()) + 
-              'years, height: ' + str(persons_list[i].get_height()) + 'cm')
+        persons_list[i].print_str(i)
+
 
 
 def sort_and_print(persons_list):
