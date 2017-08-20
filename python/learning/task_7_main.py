@@ -1,11 +1,7 @@
 #!/usr/bin/python3
 
-
-import random
-from task_7a import Person
 from task_7a import RandomPerson
-
-
+from task_7a import RandomPerson as RndPrs
 
 def get_random_persons_list(length, random_person = RandomPerson()):
     persons_list = []
@@ -36,7 +32,7 @@ def sort_and_print(persons_list):
     print_persons_list(persons_list_sorted_by_height)
 
 
-def main():
+def main(array_size):
     persons_list = get_random_persons_list(10)
     sort_and_print(persons_list)
 
