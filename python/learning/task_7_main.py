@@ -10,7 +10,7 @@ def print_help():
 
 def parse_args(argv):
     try:
-        opts, args = getopt.getopt(argv, 'ha:', ['help', 'array size='])
+        opts, args = getopt.getopt(argv, 'ha:', ['help', 'array_size='])
     except getopt.GetoptError:
         print_help()
         sys.exit(2)
@@ -22,18 +22,19 @@ def parse_args(argv):
         if opt == '-h':
             print_help()
             sys.exit()
-        elif opt in ('-a', '--array size'):
+        elif opt in ('-a', '--array_size'):
             is_input_value = True
             input_value = argv
 
-        return input_value, is_input_value
+    return input_value, is_input_value
 
 def arg_check(parse_args):
-    arg = parse_args[0]
-    array_size = arg[1]
-    if array_size.isdigit():
+    try:
+        arg = parse_args[0]
+        array_size = arg[1]
+        array_size.isdigit()
         return int(array_size)
-    else:
+    except:
         print_help()
         sys.exit(2)
 
@@ -71,6 +72,7 @@ def main(argv):
         sort_and_print(persons_list)
     else:
         print_help()
+        sys.exit(2)
 
     # persons_list = get_random_persons_list(array_size, RandomPerson(['Ann', 'Marry', 'Helen'] , ['Doe', 'Unknown', 'Prince'] , 30, 50, 150, 180))
     # sort_and_print(persons_list)
