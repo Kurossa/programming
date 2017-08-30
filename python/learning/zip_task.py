@@ -1,13 +1,11 @@
 #!/usr/bin/python3
 
 import sys, getopt, zipfile
+from pathlib import Path
 
 def print_help():
     print('Help:')
-    print('zip_task.py -z <zip file> -f <zip decompression folder>')
-
-def print_error():
-    print('Error')
+    print('zip_task.py -z <zip file> -f <zip destination folder>')
 
 def parse_args(argv):
     try:
@@ -43,34 +41,21 @@ def extraction(zip_file, extract_folder):
         z.extract(name, folder)
         print('The file named:',file,', has been extracted to:',folder, 'folder')
 
+def dir_check(dir):
+    is_dir_already = Path(dir)
+    if is_dir_already.exists():
+        print('Folder',is_dir_already,'exist!')
+        sys.exit(2)
+    else:
+        return False
+
 def main(argv):
     zip_file, zip_folder, parse_ok = parse_args(argv)
-    print(sys.argv[1:])
-    print(zip_file)
-    print(zip_folder)
-    print(parse_ok)
-    if (parse_ok):
+    if parse_ok and not dir_check(zip_folder):
         extraction(zip_file, zip_folder)
     else:
         print_help()
         sys.exit(2)
-
-    # zf = zipfile.ZipFile
-    # zf.open('example.zip', mode = 'r', pwd = None)
-    # zf.extractall(path = None, members = None, pwd = None)
-    # zf.close()
-
-    # with zipfile.ZipFile('example.zip', 'r') as zf:
-    #     data = zf.namelist()
-    #     print(data)
-    #
-    # #file_open = open('example.zip', 'r')
-    # z = zipfile.ZipFile('example.zip', 'r')
-    # for name in z.namelist():
-    #     folder = 'example'
-    #     z.extract(name, folder)
-
-
 
 if __name__ == '__main__':
     main(sys.argv[1:])
