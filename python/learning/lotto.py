@@ -10,12 +10,33 @@
 #But while executing lotto.py with -x argument and giving 5 numbers (separated by space) it will add +1 to the
 #=drawn number= to each number we gave after -x argument. This operation will update lotto.txt with the lates draw.
 
-def main():
+import re
+
+def get_list():
     with open('lotto.txt') as file:
         #read_data = file.read(8)
-        read_line = file.readline(1)
+        #read_line = file.readline()
         #print(read_data)
-        print(read_line)
+        #print(read_line)
+        for line in file:
+            match = re.search(r'-..-', line)
+            match2 = re.search(r'=..=', line)
+            data = match.group()[1:3:], match2.group()[1:3:]
+            print(data)
+            #return(line)# end='')
+
+
+
+def sort_numbers():
+    pass
+
+def main():
+    data = get_list()
+    # match = re.search(r'-..-',data)
+    # match2 = re.search(r'=..=',data)
+    # data = match.group()[1:3:], match2.group()[1:3:]
+    # print(data)
+
 
 if __name__ == '__main__':
     main()
