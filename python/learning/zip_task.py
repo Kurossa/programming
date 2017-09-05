@@ -7,31 +7,40 @@ def print_help():
     print('Help:')
     print('zip_task.py -z <zip file> -f <zip destination folder>')
 
-def parse_args(argv):
-    try:
-        opts, args = getopt.getopt(argv, 'hz:f:', ['help', 'zipfile=', 'folder='])
-    except getopt.GetoptError:
-        print_help()
-        sys.exit(2)
+class ParseArgs:
+    def __init__(self):
+        self.zip_folder = ''
+        self.zip_name = ''
 
-    is_zipfile = False
-    is_zipfolder = False
-
-    zip_file = ''
-    zip_folder = ''
-
-    for opt, arg in opts:
-        if opt == '-h':
+    def parse_args(self, argv):
+        try:
+            opts, args = getopt.getopt(argv, 'hz:f:', ['help', 'zipfile=', 'folder='])
+        except getopt.GetoptError:
             print_help()
-            sys.exit()
-        elif opt in ('-z', '--zipfile'):
-            is_zipfile = True
-            zip_file = arg
-        elif opt in ('-f', '--folder'):
-            is_zipfolder = True
-            zip_folder = arg
+            sys.exit(2)
 
-    return zip_file, zip_folder, (is_zipfile and is_zipfolder)
+        is_zipfile = False
+        is_zipfolder = False
+
+        for opt, arg in opts:
+            if opt == '-h':
+                print_help()
+                sys.exit()
+            elif opt in ('-z', '--zipfile'):
+                is_zipfile = True
+                self.zip_file = arg
+            elif opt in ('-f', '--folder'):
+                is_zipfolder = True
+                self.zip_folder = arg
+
+        return (is_zipfile and is_zipfolder)
+
+    def get_zip_name(self):
+        return self.zip_name
+
+    def get_zip_folder(self):
+        return self.zip_folder
+
 
 def extraction(zip_file, extract_folder):
     file = zip_file
@@ -45,14 +54,14 @@ def dir_check(dir):
     is_dir_already = Path(dir)
     if is_dir_already.exists():
         print('Folder',is_dir_already,'exist!')
-        sys.exit(2)
-    else:
         return False
+    else:
+        return True
 
 def main(argv):
-    zip_file, zip_folder, parse_ok = parse_args(argv)
-    if parse_ok and not dir_check(zip_folder):
-        extraction(zip_file, zip_folder)
+    parse_args = ParseArgs()
+    if parse_args.parse_args(argv) and dir_check(zip_folder):
+        extraction(parse_args.get_zip_name(), parse_args.get_zip_folder())
     else:
         print_help()
         sys.exit(2)
