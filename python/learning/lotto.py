@@ -11,32 +11,25 @@
 #=drawn number= to each number we gave after -x argument. This operation will update lotto.txt with the lates draw.
 
 import re
+from operator import itemgetter
 
 def get_list():
+    match_list = []
     with open('lotto.txt') as file:
-        #read_data = file.read(8)
-        #read_line = file.readline()
-        #print(read_data)
-        #print(read_line)
         for line in file:
             match = re.search(r'-..-', line)
             match2 = re.search(r'=..=', line)
             data = match.group()[1:3:], match2.group()[1:3:]
-            print(data)
-            #return(line)# end='')
-
-
+            match_list.append(data)
+        return match_list
 
 def sort_numbers():
     pass
 
 def main():
     data = get_list()
-    # match = re.search(r'-..-',data)
-    # match2 = re.search(r'=..=',data)
-    # data = match.group()[1:3:], match2.group()[1:3:]
-    # print(data)
-
+    numbers_sorted = sorted(data, reverse=True, key=itemgetter(1))
+    print(numbers_sorted)
 
 if __name__ == '__main__':
     main()
