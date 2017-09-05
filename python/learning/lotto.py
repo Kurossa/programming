@@ -27,9 +27,10 @@ def sort_numbers():
     pass
 
 def main():
-    data = get_list()
-    numbers_sorted = sorted(data, reverse=True, key=itemgetter(1))
-    print(numbers_sorted)
+    numbers = get_list()
+    numbers_sorted = sorted(numbers, reverse=True, key=itemgetter(1))
+    for i in numbers_sorted:
+        print('Number:',i[0], ' Quantity:',i[1])
 
 if __name__ == '__main__':
     main()
