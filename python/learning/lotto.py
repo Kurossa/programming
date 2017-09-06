@@ -24,10 +24,11 @@ def get_list():
         return match_list
 
 def find_number():
-
-
     with open('lotto.txt') as file:
         for line in file:
+            match = re.search('(\d)', line)
+            data = match.group()[:1]
+            print(data)
             
 
         # for line in file:
