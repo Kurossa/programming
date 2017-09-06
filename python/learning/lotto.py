@@ -23,14 +23,25 @@ def get_list():
             match_list.append(data)
         return match_list
 
-def sort_numbers():
-    pass
+def find_number():
 
-def main():
+
+    with open('lotto.txt') as file:
+        for line in file:
+            
+
+        # for line in file:
+        #     match = re.search(r'33', line)
+        #     print(match)
+
+def print_sort_numbers():
     numbers = get_list()
     numbers_sorted = sorted(numbers, reverse=True, key=itemgetter(1))
     for i in numbers_sorted:
-        print('Number:',i[0], ' Quantity:',i[1])
+        print('Number:', i[0], ' Quantity:', i[1])
+
+def main():
+    find_number()
 
 if __name__ == '__main__':
     main()
