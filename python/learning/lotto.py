@@ -26,8 +26,8 @@ def get_list():
 def find_number():
     with open('lotto.txt') as file:
         for line in file:
-            match = re.search('(\d)', line)
-            data = match.group()[:1]
+            match = re.search('(\d.)', line)
+            data = match.group(1)
             print(data)
             
 
