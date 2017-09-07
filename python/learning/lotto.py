@@ -30,9 +30,14 @@ def update_draw(value):
             match = re.search('-'+number+'-', line)
             if match:
                 main_number = line[1:3]
-                new_value = int(line[5:7])+1
+                old_value = line[5:7]
+                new_value = int(old_value)+1
                 new_value = str(new_value)
-                return main_number, new_value
+                new_line = ('-'+main_number+'-'+'='+new_value+'=\n')
+                return line, new_line #needs to be changed to return only "old_line" and "new_line"
+
+def write_to_file(old_line, new_line):
+    pass
 
 # def update_number():
 #     updated_number = find_number(value)[0]
