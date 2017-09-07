@@ -23,17 +23,24 @@ def get_list():
             match_list.append(data)
         return match_list
 
-def find_number():
+def update_draw(value):
+    number = value
     with open('lotto.txt') as file:
         for line in file:
-            match = re.search('(\d.)', line)
-            data = match.group(1)
-            print(data)
-            
+            match = re.search('-'+number+'-', line)
+            if match:
+                main_number = line[1:3]
+                new_value = int(line[5:7])+1
+                new_value = str(new_value)
+                return main_number, new_value
 
-        # for line in file:
-        #     match = re.search(r'33', line)
-        #     print(match)
+# def update_number():
+#     updated_number = find_number(value)[0]
+#     updated_value = find_number(value)[1]
+#     print(updated_number, updated_value)
+
+
+
 
 def print_sort_numbers():
     numbers = get_list()
@@ -42,7 +49,8 @@ def print_sort_numbers():
         print('Number:', i[0], ' Quantity:', i[1])
 
 def main():
-    find_number()
+    get_value = update_draw('17')
+    print(get_value)
 
 if __name__ == '__main__':
     main()
