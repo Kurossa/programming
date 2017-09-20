@@ -37,7 +37,15 @@ def update_draw(value):
                 return line, new_line #needs to be changed to return only "old_line" and "new_line"
 
 def write_to_file(old_line, new_line):
-    pass
+    with open('lotto.txt', 'r') as file:
+        file = file.read()
+
+    # Replace the target string
+    new_file_data = file.replace(old_line, new_line)
+
+    # Write the file out again
+    with open('lotto.txt', 'w') as file:
+        file.write(new_file_data)
 
 # def update_number():
 #     updated_number = find_number(value)[0]
@@ -55,7 +63,11 @@ def print_sort_numbers():
 
 def main():
     get_value = update_draw('17')
-    print(get_value)
+    #print(get_value)
+    old_line, new_line = get_value
+    #print(new_line)
+    write_to_file(old_line, new_line)
+    print_sort_numbers()
 
 if __name__ == '__main__':
     main()
