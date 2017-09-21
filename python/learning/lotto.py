@@ -13,15 +13,28 @@
 import re
 from operator import itemgetter
 
-def get_list():
-    match_list = []
-    with open('lotto.txt') as file:
-        for line in file:
-            match = re.search(r'-..-', line)
-            match2 = re.search(r'=..=', line)
-            data = match.group()[1:3:], match2.group()[1:3:]
-            match_list.append(data)
-        return match_list
+class ListSorted:
+
+    def __init__(self, file):
+        self.file = file
+        self.match_list = []
+
+
+    def get_list(self):
+        lotto_file = self.file
+        with open(lotto_file) as file:
+            for line in file:
+                match = re.search(r'-..-', line)
+                match2 = re.search(r'=..=', line)
+                data = match.group()[1:3:], match2.group()[1:3:]
+                self.match_list.append(data)
+            return self.match_list
+
+    def print_sort_numbers(self):
+        numbers = self.match_list
+        numbers_sorted = sorted(numbers, reverse=True, key=itemgetter(1))
+        for i in numbers_sorted:
+            print('Number:', i[0], ' Quantity:', i[1])
 
 def update_draw(value):
     number = value
@@ -34,40 +47,33 @@ def update_draw(value):
                 new_value = int(old_value)+1
                 new_value = str(new_value)
                 new_line = ('-'+main_number+'-'+'='+new_value+'=\n')
-                return line, new_line #needs to be changed to return only "old_line" and "new_line"
+                return line, new_line
 
 def write_to_file(old_line, new_line):
     with open('lotto.txt', 'r') as file:
         file = file.read()
 
-    # Replace the target string
     new_file_data = file.replace(old_line, new_line)
 
-    # Write the file out again
     with open('lotto.txt', 'w') as file:
         file.write(new_file_data)
 
-# def update_number():
-#     updated_number = find_number(value)[0]
-#     updated_value = find_number(value)[1]
-#     print(updated_number, updated_value)
 
-
-
-
-def print_sort_numbers():
-    numbers = get_list()
-    numbers_sorted = sorted(numbers, reverse=True, key=itemgetter(1))
-    for i in numbers_sorted:
-        print('Number:', i[0], ' Quantity:', i[1])
 
 def main():
-    get_value = update_draw('17')
-    #print(get_value)
-    old_line, new_line = get_value
-    #print(new_line)
-    write_to_file(old_line, new_line)
-    print_sort_numbers()
+    sorting_list = ListSorted('lotto.txt')
+    getting_list = sorting_list.get_list()
+    getting_sorted_list = sorting_list.print_sort_numbers()
+    getting_sorted_list
+
+
+
+    # get_value = update_draw('17')
+    # #print(get_value)
+    # old_line, new_line = get_value
+    # #print(new_line)
+    # write_to_file(old_line, new_line)
+    # print_sort_numbers()
 
 if __name__ == '__main__':
     main()
