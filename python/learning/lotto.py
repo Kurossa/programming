@@ -36,44 +36,53 @@ class ListSorted:
         for i in numbers_sorted:
             print('Number:', i[0], ' Quantity:', i[1])
 
-def update_draw(value):
-    number = value
-    with open('lotto.txt') as file:
-        for line in file:
-            match = re.search('-'+number+'-', line)
-            if match:
-                main_number = line[1:3]
-                old_value = line[5:7]
-                new_value = int(old_value)+1
-                new_value = str(new_value)
-                new_line = ('-'+main_number+'-'+'='+new_value+'=\n')
-                return line, new_line
+class UpdateFile:
 
-def write_to_file(old_line, new_line):
-    with open('lotto.txt', 'r') as file:
-        file = file.read()
+    def __init__(self, file, value):
+        self.file = file
+        self.value = value
+        self.line = None
+        self.new_line = None
 
-    new_file_data = file.replace(old_line, new_line)
+    def update_draw(self):
+        lotto_file = self.file
+        number = self.value
+        with open(lotto_file) as file:
+            for self.line in file:
+                match = re.search('-'+number+'-', self.line)
+                if match:
+                    main_number = self.line[1:3]
+                    old_value = self.line[5:7]
+                    new_value = int(old_value)+1
+                    new_value = str(new_value)
+                    self.new_line = ('-'+main_number+'-'+'='+new_value+'=\n')
+                    return self.line, self.new_line
 
-    with open('lotto.txt', 'w') as file:
-        file.write(new_file_data)
+    def write_to_file(self):
+        old_line = self.line
+        new_line = self.new_line
+        with open(self.file, 'r') as file:
+            file = file.read()
 
+        new_file_data = file.replace(old_line, new_line)
 
+        with open(self.file, 'w') as file:
+            file.write(new_file_data)
 
 def main():
+
+    file_update = UpdateFile('lotto.txt', '15')
+    draw_update = file_update.update_draw()
+    write_draw_to_file = file_update.write_to_file()
+    write_draw_to_file
+
+
     sorting_list = ListSorted('lotto.txt')
     getting_list = sorting_list.get_list()
     getting_sorted_list = sorting_list.print_sort_numbers()
     getting_sorted_list
 
 
-
-    # get_value = update_draw('17')
-    # #print(get_value)
-    # old_line, new_line = get_value
-    # #print(new_line)
-    # write_to_file(old_line, new_line)
-    # print_sort_numbers()
 
 if __name__ == '__main__':
     main()
