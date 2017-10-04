@@ -12,51 +12,28 @@
 
 import re
 from operator import itemgetter
+import random
 
-class ListSorted:
-
+class LottoDraw:
     def __init__(self, file):
         self.file = file
-        self.match_list = []
-
-
-    def get_list(self):
-        lotto_file = self.file
-        with open(lotto_file) as file:
-            for line in file:
-                match = re.search(r'-..-', line)
-                match2 = re.search(r'=..=', line)
-                data = match.group()[1:3:], match2.group()[1:3:]
-                self.match_list.append(data)
-            return self.match_list
-
-    def print_sort_numbers(self):
-        numbers = self.match_list
-        numbers_sorted = sorted(numbers, reverse=True, key=itemgetter(1))
-        for i in numbers_sorted:
-            print('Number:', i[0], ' Quantity:', i[1])
-
-class UpdateFile:
-
-    def __init__(self, file, value):
-        self.file = file
-        self.value = value
         self.line = None
         self.new_line = None
 
-    def update_draw(self):
+    def update_draw(self, value):
         lotto_file = self.file
-        number = self.value
+        number = value
         with open(lotto_file) as file:
             for self.line in file:
-                match = re.search('-'+number+'-', self.line)
+                match = re.search('-' +  number + '-', self.line)
                 if match:
                     main_number = self.line[1:3]
-                    old_value = self.line[5:7]
-                    new_value = int(old_value)+1
-                    new_value = str(new_value)
-                    self.new_line = ('-'+main_number+'-'+'='+new_value+'=\n')
-                    return self.line, self.new_line
+                    main_number_count = self.line[5:7]
+                    main_number_count = int(main_number_count)+1
+                    main_number_count = str(main_number_count)
+                    self.new_line = ('-' + main_number + '-' + '=' + main_number_count + '=\n')
+                    self.write_to_file()
+                    #return self.line, self.new_line
 
     def write_to_file(self):
         old_line = self.line
@@ -69,19 +46,32 @@ class UpdateFile:
         with open(self.file, 'w') as file:
             file.write(new_file_data)
 
+
+    def get_list(self):
+        lotto_file = self.file
+        match_list = []
+        with open(lotto_file) as file:
+            for line in file:
+                match = re.search(r'-..-', line)
+                match2 = re.search(r'=..=', line)
+                data = match.group()[1:3:], match2.group()[1:3:]
+                match_list.append(data)
+        return match_list
+
+
+    def print_sort_numbers(self):
+        numbers = self.get_list()
+        numbers_sorted = sorted(numbers, reverse=True, key=itemgetter(1))
+        for i in numbers_sorted:
+            print('Number:', i[0], ' Quantity:', i[1])
+
+
 def main():
 
-    file_update = UpdateFile('lotto.txt', '15')
-    draw_update = file_update.update_draw()
-    write_draw_to_file = file_update.write_to_file()
-    write_draw_to_file
-
-
-    sorting_list = ListSorted('lotto.txt')
-    getting_list = sorting_list.get_list()
-    getting_sorted_list = sorting_list.print_sort_numbers()
-    getting_sorted_list
-
+    lotto_draw = LottoDraw('lotto.txt')
+    for i in range(100):
+        lotto_draw.update_draw(str(random.randrange(1,35)))
+    lotto_draw.print_sort_numbers()
 
 
 if __name__ == '__main__':
