@@ -13,33 +13,7 @@
 import re, random, sys, getopt
 from operator import itemgetter
 
-def print_help():
-    print('Help:')
-    print('lotto.py -l (prints sorted list)')
-    print('lotto.py -d <numbers separated by space> (adds the latest draw)')
 
-def parse_args(argv):
-    try:
-        opts, args = getopt.getopt(argv, 'hld:', ['help', 'list_sorted', 'add_draw'])
-    except getopt.GetoptError:
-        print_help()
-        sys.exit(2)
-
-    is_input_value = False
-    is_input_is_a_list = False
-
-    draw_value = ''
-
-    for opt, args in opts:
-        if opt == '-h':
-            print_help()
-            sys.exit()
-        elif opt == '-l':
-            is_input_is_a_list = True
-        elif opt in ('d', '--draw'):
-            is_input_value = True
-            draw_value = argv
-    return draw_value, is_input_value, is_input_is_a_list
 
 class LottoDraw:
     def __init__(self, file):
@@ -48,7 +22,7 @@ class LottoDraw:
 
     def update_draw(self, value):
         lotto_file = self.file
-        number = value
+        number = value[1]
         # line = None
         # new_line = None
         with open(lotto_file) as file:
@@ -94,7 +68,34 @@ class LottoDraw:
             print('Number:', i[0], ' Quantity:', i[1])
 
 
+def print_help():
+    print('Help:')
+    print('lotto.py -l (prints sorted list)')
+    print('lotto.py -d <numbers separated by space> (adds the latest draw)')
 
+def parse_args(argv):
+    try:
+        opts, args = getopt.getopt(argv, 'hld:', ['help', 'list_sorted', 'draw_value'])
+    except getopt.GetoptError:
+        print_help()
+        sys.exit(2)
+
+    is_input_value = False
+    is_input_is_a_list = False
+
+    draw_value = ''
+
+    for opt, args in opts:
+        if opt == '-h':
+            print_help()
+            sys.exit()
+        elif opt == '-l':
+            is_input_is_a_list = True
+        elif opt in ('-d', '--draw'):
+            is_input_value = True
+            draw_value = argv
+
+    return draw_value, is_input_value, is_input_is_a_list
 
 def main(argv):
 
@@ -107,6 +108,8 @@ def main(argv):
     draw_numbers, parse_ok, list_print = parse_args(argv)
     if list_print:
         lotto_draw.print_sort_numbers()
+    elif draw_numbers and parse_ok:
+        lotto_draw.update_draw(draw_numbers)
     else:
         print_help()
         sys.exit(2)
