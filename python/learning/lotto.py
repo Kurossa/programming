@@ -13,7 +13,10 @@
 import re, random, sys, getopt
 from operator import itemgetter
 
-
+def print_help():
+    print('Help:')
+    print('lotto.py -l (prints sorted list)')
+    print('lotto.py -d <numbers separated by space> (adds the latest draw)')
 
 class LottoDraw:
     def __init__(self, file):
@@ -68,34 +71,33 @@ class LottoDraw:
             print('Number:', i[0], ' Quantity:', i[1])
 
 
-def print_help():
-    print('Help:')
-    print('lotto.py -l (prints sorted list)')
-    print('lotto.py -d <numbers separated by space> (adds the latest draw)')
+class ParseArgs:
 
-def parse_args(argv):
-    try:
-        opts, args = getopt.getopt(argv, 'hld:', ['help', 'list_sorted', 'draw_value'])
-    except getopt.GetoptError:
-        print_help()
-        sys.exit(2)
+    def __init__(self):
+        self.is_input_value = False
+        self.is_input_is_a_list = False
+        self.draw_value = ''
 
-    is_input_value = False
-    is_input_is_a_list = False
 
-    draw_value = ''
 
-    for opt, args in opts:
-        if opt == '-h':
+    def parse_args(self, argv):
+        try:
+            opts, args = getopt.getopt(argv, 'hld:', ['help', 'list_sorted', 'draw_value'])
+        except getopt.GetoptError:
             print_help()
-            sys.exit()
-        elif opt == '-l':
-            is_input_is_a_list = True
-        elif opt in ('-d', '--draw'):
-            is_input_value = True
-            draw_value = argv
+            sys.exit(2)
 
-    return draw_value, is_input_value, is_input_is_a_list
+        for opt, args in opts:
+            if opt == '-h':
+                print_help()
+                sys.exit()
+            elif opt == '-l':
+                self.is_input_is_a_list = True
+            elif opt in ('-d', '--draw'):
+                self.is_input_value = True
+                self.draw_value = argv
+
+        return self.draw_value, self.is_input_value, self.is_input_is_a_list
 
 def main(argv):
 
@@ -104,8 +106,9 @@ def main(argv):
     #     lotto_draw.update_draw(str(random.randrange(1,35)))
     # lotto_draw.print_sort_numbers()
 
+    parse_task = ParseArgs()
     lotto_draw = LottoDraw('lotto.txt')
-    draw_numbers, parse_ok, list_print = parse_args(argv)
+    draw_numbers, parse_ok, list_print = parse_task.parse_args(argv)
     if list_print:
         lotto_draw.print_sort_numbers()
     elif draw_numbers and parse_ok:
