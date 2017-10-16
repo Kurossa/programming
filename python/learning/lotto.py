@@ -25,7 +25,7 @@ class LottoDraw:
 
     def update_draw(self, value):
         lotto_file = self.file
-        number = value[1]
+        number = value
         # line = None
         # new_line = None
         with open(lotto_file) as file:
@@ -80,24 +80,35 @@ class ParseArgs:
 
 
 
-    def parse_args(self, argv):
+    def parse_args(self, lotto_draw, argv):
         try:
             opts, args = getopt.getopt(argv, 'hld:', ['help', 'list_sorted', 'draw_value'])
         except getopt.GetoptError:
             print_help()
             sys.exit(2)
 
-        for opt, args in opts:
+        print (opts)
+        print (args)
+        print(argv)
+
+        for opt, arg in opts:
+            print(opt)
+            print(arg)
             if opt == '-h':
                 print_help()
                 sys.exit()
             elif opt == '-l':
-                self.is_input_is_a_list = True
+                #self.is_input_is_a_list = True
+                lotto_draw.print_sort_numbers()
             elif opt in ('-d', '--draw'):
                 self.is_input_value = True
-                self.draw_value = argv
+                self.draw_value = arg
+                lotto_draw.update_draw(arg)
+            else:
+                print_help()
+                sys.exit(2)
 
-        return self.draw_value, self.is_input_value, self.is_input_is_a_list
+        #return self.draw_value, self.is_input_value, self.is_input_is_a_list
 
 def main(argv):
 
@@ -108,14 +119,14 @@ def main(argv):
 
     parse_task = ParseArgs()
     lotto_draw = LottoDraw('lotto.txt')
-    draw_numbers, parse_ok, list_print = parse_task.parse_args(argv)
-    if list_print:
-        lotto_draw.print_sort_numbers()
-    elif draw_numbers and parse_ok:
-        lotto_draw.update_draw(draw_numbers)
-    else:
-        print_help()
-        sys.exit(2)
+    parse_task.parse_args(lotto_draw, argv)
+    # if list_print:
+    #     lotto_draw.print_sort_numbers()
+    # elif draw_numbers and parse_ok:
+    #     lotto_draw.update_draw(draw_numbers)
+    # else:
+    #     print_help()
+    #     sys.exit(2)
 
 if __name__ == '__main__':
     main(sys.argv[1:])
