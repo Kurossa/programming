@@ -2,15 +2,19 @@
 
 import sys, math
 
-def keyboard_filter(str_list):
+def filter_char(input_char):
     allowed_chars = '1234567890.+-*/='
+    if(type(input_char) == str):
+        if(len(input_char)==1):
+            if input_char in allowed_chars:
+                return input_char
+    return ''
+
+def keyboard_filter(str_list):
     buffer =''
-
     for char in str_list:
-        for allowed_char in allowed_chars:
-            if char == allowed_char:
-                buffer += char
-
+        char = filter_char(char)
+        buffer += char
     return buffer
 
 def calculation(number_2, number_1, operation):
@@ -25,55 +29,64 @@ def calculation(number_2, number_1, operation):
         return str(number_1 * number_2)
     elif operation == '/':
         return str(number_1 / number_2)
+    else:
+        return 'Error operation'
 
 def clearing_process(number_1, number_2, operation, char):
     number_1 = number_2
     operation = char
     number_2 = ''
 
+class CalculatorEngine:
 
-def chars_process(str_list):
-    alow_numbers = '1234567890.'
-    alow_operations = '+-*/='
-    operation = ''
-    number_2 = ''
-    number_1 = ''
-    result = ''
+    def __init__(self):
+        self.alow_numbers = '1234567890.'
+        self.alow_operations = '+-*/='
+        self.operation = ''
+        self.number_2 = ''
+        self.number_1 = ''
+        self.result = ''
 
-    for char in str_list:
-        if char in alow_numbers:
-            number_2 += char
-        if char in alow_operations:
-            if number_1 == '' and operation == '':
-                number_1 = number_2
-                operation = char
-                number_2 = ''
-            else:
+
+    def chars_process(self, str_list):
+        for char in str_list:
+            if char in self.alow_numbers:
+                self.number_2 += char
+            if char in self.alow_operations:
                 if char == '=':
-                    result = calculation(number_2, number_1, operation)
-                    number_1 = result
+                    self.result = calculation(self.number_2, self.number_1, self.operation)
+                    self.number_1 = self.result
                 else:
-                    result = calculation(number_2, number_1, operation)
-                    number_1 = result
-                    #number_1 = number_2
-                    operation = char
-                    number_2 = ''
+                    if(self.number_1 != ''):
+                        self.result = calculation(self.number_2, self.number_1, self.operation)
+                        self.number_1 = self.result
+                    else:
+                        self.number_1 = self.number_2
+
+                self.operation = char
+                self.number_2 = ''
 
 
 
-    return result
+        return self.result
 
 def main():
-    test_str = "et3e;tg5gerghez43t"
+    #test_str = "et3e;tg5gerghez43t"
 
-    output = keyboard_filter(test_str)
-    print(output)
+    #output = keyboard_filter(test_str)
+    #print(output)
 
-    test_str2 = 'dw34+sr5nyt.3*gds8bv-yf5k====;+98-8'
-    print(keyboard_filter(test_str2))
+    #test_str2 = 'dw34+sr5nyt.3*gds8bv-yf5k====;+98-8'
+    #test_str2 = '123+123='
+    #print(keyboard_filter(test_str2))
 
-    output2 = chars_process(keyboard_filter(test_str2))
+    str_1 = '1123..8786.123++234=234===234=234+234='
+    calc = CalculatorEngine()
+
+    output2 = calc.chars_process(keyboard_filter(str_1))
     print(output2)
+
+
     #
     # calculation = main_operations(second_number, first_number, op)
     # print(calculation)
