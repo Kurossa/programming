@@ -32,10 +32,16 @@ def calculation(number_2, number_1, operation):
     else:
         return 'Error operation'
 
-def clearing_process(number_1, number_2, operation, char):
-    number_1 = number_2
-    operation = char
-    number_2 = ''
+def multi_dot_filter(number_2, char):
+    if number_2 == '':
+        number_2 += char
+    else:
+        if '.' in number_2 and char == '.':
+            number_2 += ''
+        else:
+            number_2 += char
+
+    return number_2
 
 class CalculatorEngine:
 
@@ -47,17 +53,16 @@ class CalculatorEngine:
         self.number_1 = ''
         self.result = ''
 
-
     def chars_process(self, str_list):
         for char in str_list:
             if char in self.alow_numbers:
-                self.number_2 += char
+                self.number_2 = multi_dot_filter(self.number_2, char)
             if char in self.alow_operations:
                 if char == '=':
                     self.result = calculation(self.number_2, self.number_1, self.operation)
                     self.number_1 = self.result
                 else:
-                    if(self.number_1 != ''):
+                    if self.number_1 != '':
                         self.result = calculation(self.number_2, self.number_1, self.operation)
                         self.number_1 = self.result
                     else:
@@ -65,8 +70,6 @@ class CalculatorEngine:
 
                 self.operation = char
                 self.number_2 = ''
-
-
 
         return self.result
 
