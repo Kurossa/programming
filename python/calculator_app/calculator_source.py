@@ -58,18 +58,21 @@ class CalculatorEngine:
             if char in self.alow_numbers:
                 self.number_2 = multi_dot_filter(self.number_2, char)
             if char in self.alow_operations:
-                if char == '=':
-                    self.result = calculation(self.number_2, self.number_1, self.operation)
-                    self.number_1 = self.result
+                if self.number_2 == '':
+                    self.operation = char
                 else:
-                    if self.number_1 != '':
+                    if char == '=':
                         self.result = calculation(self.number_2, self.number_1, self.operation)
                         self.number_1 = self.result
                     else:
-                        self.number_1 = self.number_2
+                        if self.number_1 != '':
+                            self.result = calculation(self.number_2, self.number_1, self.operation)
+                            self.number_1 = self.result
+                        else:
+                            self.number_1 = self.number_2
 
-                self.operation = char
-                self.number_2 = ''
+                    self.operation = char
+                    self.number_2 = ''
 
         return self.result
 
