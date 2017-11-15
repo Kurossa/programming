@@ -62,14 +62,23 @@ class CalculatorEngine:
                     self.operation = char
                 else:
                     if char == '=':
-                        self.result = calculation(self.number_2, self.number_1, self.operation)
-                        self.number_1 = self.result
-                    else:
-                        if self.number_1 != '':
+                        # if self.operation == '=':
+                        #     self.number_2 = ''
+                        if self.number_1 != '' and self.number_2 != '' and self.operation != '=':
                             self.result = calculation(self.number_2, self.number_1, self.operation)
                             self.number_1 = self.result
                         else:
-                            self.number_1 = self.number_2
+                            self.number_2 = ''
+                    else:
+                        if self.operation == '=':
+                            self.operation = char
+                            self.number_2 = ''
+                        else:
+                            if self.number_1 != '':
+                                self.result = calculation(self.number_2, self.number_1, self.operation)
+                                self.number_1 = self.result
+                            else:
+                                self.number_1 = self.number_2
 
                     self.operation = char
                     self.number_2 = ''
@@ -86,7 +95,10 @@ def main():
     #test_str2 = '123+123='
     #print(keyboard_filter(test_str2))
 
-    str_1 = '1123..8786.123++234=234===234=234+234='
+    # str_1 = '1123..8786.123++234=234===234=234+234='
+    # calc = CalculatorEngine()
+
+    str_1 = '54*15-3/*-8=+51===46-8-8=8=8=8=36-+5*15'
     calc = CalculatorEngine()
 
     output2 = calc.chars_process(keyboard_filter(str_1))
