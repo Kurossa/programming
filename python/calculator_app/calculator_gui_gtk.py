@@ -16,10 +16,13 @@ class CalculatorWindow(Gtk.Window):
         self.add(self.grid)
 
         # Entry
-        self.entry = Gtk.Entry()
+        self.entry = Gtk.Label()
+        #self.entry = Gtk.Entry()
         self.entry.set_hexpand(True)
         self.entry.set_vexpand(True)
-        self.entry.set_alignment(1.0)
+        #self.entry.set_justify(Gtk.Justification.GTK_JUSTIFY_RIGHT)
+        print(self.entry.get_justify())
+        #self.entry.set_alignment(1.0)
         
         # Buttons
         self.buttons = []
@@ -27,6 +30,7 @@ class CalculatorWindow(Gtk.Window):
         self.arrange_buttons()
 
         # Keyval dictionary
+        self.keys_accepted = '1234567890.+-*/=c'
         self.keys_dict = {'KP_1' : '1',
                           'KP_2' : '2',
                           'KP_3' : '3',
@@ -44,7 +48,13 @@ class CalculatorWindow(Gtk.Window):
                           'KP_Add': '+',
                           'KP_Subtract': '-',
                           'KP_Enter': '=',
-                          'KP_Separator' : '.' }
+                          'KP_Separator' : '.',
+                          'plus' : '+',
+                          'minus' : '-',
+                          'asteriks' : '*',
+                          'slash' : '/',
+                          'equal' : '=',
+                          'Return' : '='}
 
 
     def add_buttons(self):
@@ -126,13 +136,17 @@ class CalculatorWindow(Gtk.Window):
     
 
     def on_key_press_event(self, widget, event):
+        self.entry.set_text('')
         keyname = Gdk.keyval_name(event.keyval)
-        print("Key %s (%d) was pressed" % (keyname, event.keyval))
-        if keyname in self.keys_dict.keys():
-            result = self.calculator_engine.chars_process(self.keys_dict[keyname])
-            print("Interpreted value: %s" % self.keys_dict[keyname])
+        #print("Key %s (%d) was pressed" % (keyname, event.keyval))
+        if  keyname in self.keys_accepted:
+            print("Key %s (%d) was pressed" % (keyname, event.keyval))
+            result = self.calculator_engine.chars_process(keyname)
             self.entry.set_text(result)
-        #self.entry.set_text(self.entry.get_text()+keyname)
+        elif keyname in self.keys_dict.keys():
+            print("Key %s (%d) was pressed" % (self.keys_dict[keyname], event.keyval))
+            result = self.calculator_engine.chars_process(self.keys_dict[keyname])
+            self.entry.set_text(result)
 
 
 
