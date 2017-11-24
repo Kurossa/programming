@@ -9,21 +9,19 @@ class CalculatorWindow(Gtk.Window):
 
     def __init__(self, calculator_engine ):
         self.calculator_engine = calculator_engine
-        Gtk.Window.__init__(self, title="Calculator Gtk v.0.3")
+        Gtk.Window.__init__(self, title="Calculator Gtk v.0.6")
         self.connect("destroy", Gtk.main_quit)
         #self.connect("delete-event", Gtk.main_quit)
         self.grid = Gtk.Grid()
         self.add(self.grid)
 
         # Entry
-        self.entry = Gtk.Label()
-        #self.entry = Gtk.Entry()
-        self.entry.set_hexpand(True)
-        self.entry.set_vexpand(True)
-        #self.entry.set_justify(Gtk.Justification.GTK_JUSTIFY_RIGHT)
-        print(self.entry.get_justify())
-        #self.entry.set_alignment(1.0)
-        
+        self.label = Gtk.Label()
+        self.label.set_hexpand(True)
+        self.label.set_vexpand(True)
+        self.label.set_alignment(1.0, 1.0)
+        self.label.set_markup("<big>0</big>")
+
         # Buttons
         self.buttons = []
         self.add_buttons()
@@ -53,8 +51,7 @@ class CalculatorWindow(Gtk.Window):
                           'minus' : '-',
                           'asteriks' : '*',
                           'slash' : '/',
-                          'equal' : '=',
-                          'Return' : '='}
+                          'equal' : '='}
 
 
     def add_buttons(self):
@@ -81,8 +78,8 @@ class CalculatorWindow(Gtk.Window):
         # Compose GUI
         #  attach(child, left, top, (span) width, height)
         self.grid.set_column_homogeneous(True)
-        self.grid.attach(self.entry, 0, 0, 6, 1)
-        self.entry.connect('key_press_event', self.on_key_press_event)
+        self.grid.attach(self.label, 0, 0, 6, 1)
+        self.label.connect('key_press_event', self.on_key_press_event)
 
         # Row 1
         self.attach_button("1", 0, 1, 1, 1)
@@ -111,13 +108,6 @@ class CalculatorWindow(Gtk.Window):
     
 
     def attach_button(self, button_label, left, top, span_width, span_height):
-        # if button_label is "empty":
-        #     print('Adding empty space')
-        #     empty_label = Gtk.Label(label="")
-        #     empty_label.set_hexpand(True)
-        #     empty_label.set_vexpand(True)
-        #     self.grid.attach(empty_label, left, top, span_width, span_height)
-        #     return
         for button in self.buttons:
             if button.get_label() is button_label:
                 print('Adding button '+ button_label)
@@ -132,21 +122,20 @@ class CalculatorWindow(Gtk.Window):
     def on_click_button(self, button):
         result = self.calculator_engine.chars_process(button.get_label())
         print("Button %s was clicked" % (button.get_label()))
-        self.entry.set_text(result)
+        self.label.set_markup("<big>" + result + "</big>")
     
 
     def on_key_press_event(self, widget, event):
-        self.entry.set_text('')
         keyname = Gdk.keyval_name(event.keyval)
-        #print("Key %s (%d) was pressed" % (keyname, event.keyval))
+        print("Key %s (%d) was pressed" % (keyname, event.keyval))
         if  keyname in self.keys_accepted:
             print("Key %s (%d) was pressed" % (keyname, event.keyval))
             result = self.calculator_engine.chars_process(keyname)
-            self.entry.set_text(result)
+            self.label.set_markup("<big>" + result + "</big>")
         elif keyname in self.keys_dict.keys():
             print("Key %s (%d) was pressed" % (self.keys_dict[keyname], event.keyval))
             result = self.calculator_engine.chars_process(self.keys_dict[keyname])
-            self.entry.set_text(result)
+            self.label.set_markup("<big>" + result + "</big>")
 
 
 
