@@ -94,7 +94,6 @@ def main():
     str_1 = '54*15-3/*-8=+51=2+3='
     calc = CalculatorEngine()
 
-    get_value_to_display(keyboard_filter(str_1))
     print(get_value_to_display(get_value_to_display(keyboard_filter(str_1))))
     output2 = calc.chars_process(keyboard_filter(str_1))
     print(output2)
