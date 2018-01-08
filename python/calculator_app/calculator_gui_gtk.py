@@ -119,24 +119,28 @@ class CalculatorWindow(Gtk.Window):
                 return
 
 
+    def calculate_and_display(self, key_str_value):
+        self.calculator_engine.chars_process(key_str_value)
+        value_to_display = 0
+        # THIS DOES NOT WORK, IT DOES NOT RETURN ME VALUE TO DISPLAY!!! IT RETURNS ME, VALUE I PASS TO IT.
+        #value_to_display = self.get_value_to_display()
+        self.label.set_markup("<big>" + value_to_display + "</big>")
+
+
     def on_click_button(self, button):
-        result = self.calculator_engine.chars_process(button.get_label())
         print("Button %s was clicked" % (button.get_label()))
-        self.label.set_markup("<big>" + result + "</big>")
-    
+        self.calculate_and_display(button.get_label())
+
 
     def on_key_press_event(self, widget, event):
         keyname = Gdk.keyval_name(event.keyval)
         print("Key %s (%d) was pressed" % (keyname, event.keyval))
         if  keyname in self.keys_accepted:
             print("Key %s (%d) was pressed" % (keyname, event.keyval))
-            result = self.calculator_engine.chars_process(keyname)
-            self.label.set_markup("<big>" + result + "</big>")
+            self.calculate_and_display(keyname)
         elif keyname in self.keys_dict.keys():
             print("Key %s (%d) was pressed" % (self.keys_dict[keyname], event.keyval))
-            result = self.calculator_engine.chars_process(self.keys_dict[keyname])
-            self.label.set_markup("<big>" + result + "</big>")
-
+            self.calculate_and_display(self.keys_dict[keyname])
 
 
 def main():
