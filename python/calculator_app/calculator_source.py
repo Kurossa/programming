@@ -42,8 +42,20 @@ def multi_dot_filter(number_2, char): #filter preventing from appear more than o
             number_2 += char
     return number_2
 
-def get_value_to_display(number_2):
-    return number_2
+def get_value_to_display(key_value_str, result):
+    numbers = '1234567890.'
+    opertions = '+-*/'
+    clear_key = 'c'
+    number_to_display = ''
+    operation_to_display = ''
+
+
+
+
+
+def key_value_str():
+    keyboard_input = input(keyboard_filter(str_list))
+    return keyboard_input
 
 class CalculatorEngine:
 
@@ -81,7 +93,6 @@ class CalculatorEngine:
                             self.number_1 = self.result
                         else:
                             self.number_1 = self.number_2
-                        get_value_to_display(self.number_2)
                         self.operation = char
                     self.number_2 = ''
         return self.result
@@ -94,7 +105,6 @@ def main():
     str_1 = '54*15-3/*-8=+51=2+3='
     calc = CalculatorEngine()
 
-    print(get_value_to_display(get_value_to_display(keyboard_filter(str_1))))
     output2 = calc.chars_process(keyboard_filter(str_1))
     print(output2)
 
