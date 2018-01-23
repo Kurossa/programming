@@ -1,10 +1,9 @@
 #!/usr/bin/python3
-import sys
 import curses
-from curses.textpad import Textbox, rectangle
-import calculator_engine
 from time import sleep
+from calculator_source import CalculatorEngine
 
+# Define curses colours
 COLOR_REDONWHITE = 1
 COLOR_CYANONBLUE = 2
 COLOR_BLUEONCYAN = 3
@@ -13,42 +12,133 @@ COLOR_WHITEONRED = 5
 COLOR_REDONBLUE = 6
 COLOR_WHITEONGREEN = 7
 
-# Configuration
-CALC_TITLE = 'Calculator v0.8'
-DISP_LINES = 4
-DISP_WIDTH = 42
+class CalculatorWindow():
+    def __init__(self, calculator_engine):
+        ################################################
+        # CONSTS
+        ################################################
+        # Configuration
+        self.CALC_TITLE = 'Calculator v0.8'
+        self.DISP_LINES = 4
+        self.DISP_WIDTH = 42
 
-# Additional global consts
-CALC_HEIGHT = DISP_LINES + 16
-CALC_WIDTH = DISP_WIDTH + 2
-#TIMEOUT = 100
-ALLOWED_NUMBERS = '0123456789.'
-ALLOWED_FUNCTIONS = '+-*/='
-ALLOWED_CHARACTERS = ALLOWED_NUMBERS + ALLOWED_FUNCTIONS
+        # Additional global consts
+        self.CALC_HEIGHT = self.DISP_LINES + 16
+        self.CALC_WIDTH = self.DISP_WIDTH + 2
+        self.ALLOWED_NUMBERS = '0123456789.'
+        self.ALLOWED_FUNCTIONS = '+-*/='
+        self.ALLOWED_CHARACTERS = self.ALLOWED_NUMBERS + self.ALLOWED_FUNCTIONS
 
+        ################################################
+        # VARIABLES
+        ################################################
+        self.calculator_engine = calculator_engine
+        self.main_window = 0    # No main window
+        self.display_window = 0 # No display window
+        self.help_window = 0    # No help window
+        self.keys = []          # No keys/buttons
 
-def filter_char(char, allowed_chars):
-    for c in allowed_chars:
-        if c == char:
-            return c
-    return ''
+        self.initialize()
 
+    def initialize(self):
+        self.init_curses()
+        self.main_window = MainWindow(self.CALC_WIDTH, self.CALC_HEIGHT, self.CALC_TITLE)
+        self.display_window = DisplayWindow(self.DISP_LINES, self.DISP_WIDTH, 0, 0)
+        self.help_window = HelpWindow(self.CALC_WIDTH, self.CALC_HEIGHT)
+        self.add_buttons()
 
-def init_curses():
-    curses.initscr()
-    curses.beep()
-    curses.beep()
+    def init_curses(self):
+        curses.initscr()
+        curses.beep()
+        curses.beep()
 
-    curses.start_color()
-    curses.init_pair(COLOR_REDONWHITE, curses.COLOR_RED, curses.COLOR_WHITE)
-    curses.init_pair(COLOR_CYANONBLUE, curses.COLOR_CYAN, curses.COLOR_BLUE)
-    curses.init_pair(COLOR_BLUEONCYAN, curses.COLOR_BLUE, curses.COLOR_CYAN)
-    curses.init_pair(COLOR_WHITEONBLUE, curses.COLOR_WHITE, curses.COLOR_BLUE)
-    curses.init_pair(COLOR_WHITEONRED, curses.COLOR_WHITE, curses.COLOR_RED)
-    curses.init_pair(COLOR_REDONBLUE, curses.COLOR_RED, curses.COLOR_BLUE)
-    curses.init_pair(COLOR_WHITEONGREEN, curses.COLOR_WHITE, curses.COLOR_GREEN)
-    curses.noecho()
-    curses.curs_set(0)
+        curses.start_color()
+        curses.init_pair(COLOR_REDONWHITE, curses.COLOR_RED, curses.COLOR_WHITE)
+        curses.init_pair(COLOR_CYANONBLUE, curses.COLOR_CYAN, curses.COLOR_BLUE)
+        curses.init_pair(COLOR_BLUEONCYAN, curses.COLOR_BLUE, curses.COLOR_CYAN)
+        curses.init_pair(COLOR_WHITEONBLUE, curses.COLOR_WHITE, curses.COLOR_BLUE)
+        curses.init_pair(COLOR_WHITEONRED, curses.COLOR_WHITE, curses.COLOR_RED)
+        curses.init_pair(COLOR_REDONBLUE, curses.COLOR_RED, curses.COLOR_BLUE)
+        curses.init_pair(COLOR_WHITEONGREEN, curses.COLOR_WHITE, curses.COLOR_GREEN)
+        curses.noecho()
+        curses.curs_set(0)
+
+    def filter_char(self, char, allowed_chars):
+        if char in allowed_chars:
+            return char
+        return ''
+
+    def add_buttons(self):
+        self.keys.append(Button('1', 0, 0, self.display_window.getWindowBottomPosition))
+        self.keys.append(Button('2', 1, 0, self.display_window.getWindowBottomPosition))
+        self.keys.append(Button('3', 2, 0, self.display_window.getWindowBottomPosition))
+        self.keys.append(Button('4', 0, 1, self.display_window.getWindowBottomPosition))
+        self.keys.append(Button('5', 1, 1, self.display_window.getWindowBottomPosition))
+        self.keys.append(Button('6', 2, 1, self.display_window.getWindowBottomPosition))
+        self.keys.append(Button('7', 0, 2, self.display_window.getWindowBottomPosition))
+        self.keys.append(Button('8', 1, 2, self.display_window.getWindowBottomPosition))
+        self.keys.append(Button('9', 2, 2, self.display_window.getWindowBottomPosition))
+        self.keys.append(Button('0', 0, 3, self.display_window.getWindowBottomPosition))
+        self.keys.append(Button('.', 1, 3, self.display_window.getWindowBottomPosition))
+
+        self.keys.append(Button('+', 4, 0, self.display_window.getWindowBottomPosition))
+        self.keys.append(Button('-', 5, 0, self.display_window.getWindowBottomPosition))
+        self.keys.append(Button('*', 4, 1, self.display_window.getWindowBottomPosition))
+        self.keys.append(Button('/', 5, 1, self.display_window.getWindowBottomPosition))
+        self.keys.append(Button('=', 5, 3, self.display_window.getWindowBottomPosition))
+
+    def main(self):
+        text_string = ''
+        event = -1
+        function_pressed = False
+        try:
+            while True:
+                if event > 0 and event < 255:
+                    key = self.filter_char(chr(event), self.ALLOWED_CHARACTERS)
+                    function = self.filter_char(chr(event), self.ALLOWED_FUNCTIONS)
+                    if len(function) == 0:
+                        if function_pressed:
+                            self.display_window.shiftText()
+                            function_pressed = False
+                        text_string += key
+                        self.display_window.putText(text_string)
+                    else:
+                        function_pressed = True
+                        text_string = ''
+                        self.display_window.shiftText()
+                        self.display_window.putText(function)
+
+                    for key_it in self.keys:
+                        if key_it.get_key == key:
+                            key_it.animate();
+
+                self.main_window.render()
+                self.display_window.render()
+
+                for key_it in self.keys:
+                    key_it.render(curses.color_pair(COLOR_WHITEONBLUE))
+
+                self.help_window.render()
+                event = self.main_window.getch()
+
+                if event > 0 and event < 255 and chr(event) == 'h':
+                    """h button meaning, Show help Window."""
+                    if self.help_window.isShow:
+                        self.help_window.hide()
+                    else:
+                        self.help_window.show()
+                elif event > 0 and event < 255 and (chr(event) == 'c' or event == 27):
+                    if self.help_window.isShow:
+                        self.help_window.hide()
+                    else:
+                        """ESC or c button meaning, Clear display. If help Window shown, close it."""
+                        text_string = ''
+                        self.display_window.clear()
+                elif event > 0 and event < 255 and chr(event) == 'q':
+                    """q button meaning, Exit app."""
+                    break
+        finally:
+            curses.endwin()
 
 
 class MainWindow(object):
@@ -73,9 +163,9 @@ class MainWindow(object):
 
 
 class HelpWindow(object):
-    def __init__(self):
-        self.WIDTH = CALC_WIDTH
-        self.HEIGHT = CALC_HEIGHT
+    def __init__(self, width, height):
+        self.WIDTH = width
+        self.HEIGHT = height
         self.TITLE = 'Help'
         self.TEXT = 'Calculator written by LGlab & Kurossa\n\n' \
                     '  Used technologies:\n' \
@@ -184,80 +274,11 @@ class Button(object):
         return self.key
 
 
-# This allows the file to be used as a SCRIPT
+def main():
+    calc_engine = CalculatorEngine()
+    calc_win = CalculatorWindow(calc_engine)
+    calc_win.main()
+    return 0
+
 if __name__ == "__main__":
-    init_curses()
-    main_window = MainWindow(CALC_WIDTH, CALC_HEIGHT, CALC_TITLE)
-    display_window = DisplayWindow(DISP_LINES, DISP_WIDTH, 0, 0)
-    help_window = HelpWindow()
-
-    keys = []
-    keys.append(Button('1', 0, 0, display_window.getWindowBottomPosition))
-    keys.append(Button('2', 1, 0, display_window.getWindowBottomPosition))
-    keys.append(Button('3', 2, 0, display_window.getWindowBottomPosition))
-    keys.append(Button('4', 0, 1, display_window.getWindowBottomPosition))
-    keys.append(Button('5', 1, 1, display_window.getWindowBottomPosition))
-    keys.append(Button('6', 2, 1, display_window.getWindowBottomPosition))
-    keys.append(Button('7', 0, 2, display_window.getWindowBottomPosition))
-    keys.append(Button('8', 1, 2, display_window.getWindowBottomPosition))
-    keys.append(Button('9', 2, 2, display_window.getWindowBottomPosition))
-    keys.append(Button('0', 0, 3, display_window.getWindowBottomPosition))
-    keys.append(Button('.', 1, 3, display_window.getWindowBottomPosition))
-
-    keys.append(Button('+', 4, 0, display_window.getWindowBottomPosition))
-    keys.append(Button('-', 5, 0, display_window.getWindowBottomPosition))
-    keys.append(Button('*', 4, 1, display_window.getWindowBottomPosition))
-    keys.append(Button('/', 5, 1, display_window.getWindowBottomPosition))
-    keys.append(Button('=', 5, 3, display_window.getWindowBottomPosition))
-
-    text_string = ''
-    event = -1
-    function_pressed = False
-    try:
-        while True:
-            if event > 0 and event < 255:
-                key = filter_char(chr(event), ALLOWED_CHARACTERS)
-                function = filter_char(chr(event), ALLOWED_FUNCTIONS)
-                if  len(function) == 0:
-                    if function_pressed:
-                        display_window.shiftText()
-                        function_pressed = False
-                    text_string += key
-                    display_window.putText(text_string)
-                else:
-                    function_pressed = True
-                    text_string = ''
-                    display_window.shiftText()
-                    display_window.putText(function)
-
-                for key_it in keys:
-                    if key_it.get_key == key:
-                        key_it.animate();
-
-            main_window.render()
-            display_window.render()
-
-            for key_it in keys:
-                key_it.render(curses.color_pair(COLOR_WHITEONBLUE))
-
-            help_window.render()
-            event = main_window.getch()
-
-            if event > 0 and event < 255 and chr(event) == 'h':
-                """h button meaning, Show help Window."""
-                if help_window.isShow:
-                    help_window.hide()
-                else:
-                    help_window.show()
-            elif event > 0 and event < 255 and ( chr(event) == 'c' or event == 27):
-                if help_window.isShow:
-                    help_window.hide()
-                else:
-                    """ESC or c button meaning, Clear display. If help Window shown, close it."""
-                    text_string = ''
-                    display_window.clear()
-            elif event > 0 and event < 255 and chr(event) == 'q':
-                """q button meaning, Exit app."""
-                break
-    finally:
-        curses.endwin()
+    main()

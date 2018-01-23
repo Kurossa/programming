@@ -5,6 +5,7 @@ from gi.repository import Gtk
 from gi.repository import Gdk
 from calculator_source import CalculatorEngine
 
+
 class CalculatorWindow(Gtk.Window):
 
     def __init__(self, calculator_engine ):
@@ -53,6 +54,9 @@ class CalculatorWindow(Gtk.Window):
                           'slash' : '/',
                           'equal' : '='}
 
+    def main(self):
+        self.show_all()
+        Gtk.main()
 
     def add_buttons(self):
         self.buttons.append(Gtk.Button(label="1"))
@@ -73,7 +77,6 @@ class CalculatorWindow(Gtk.Window):
         self.buttons.append(Gtk.Button(label="="))
         self.buttons.append(Gtk.Button(label="c"))
 
-    
     def arrange_buttons(self):
         # Compose GUI
         #  attach(child, left, top, (span) width, height)
@@ -105,7 +108,6 @@ class CalculatorWindow(Gtk.Window):
         self.attach_button(".", 1, 4, 1, 1)
         self.attach_button("c", 2, 4, 1, 1)
         self.attach_button("/", 4, 4, 1, 1)
-    
 
     def attach_button(self, button_label, left, top, span_width, span_height):
         for button in self.buttons:
@@ -118,19 +120,16 @@ class CalculatorWindow(Gtk.Window):
                 button.connect('key_press_event', self.on_key_press_event)
                 return
 
-
     def calculate_and_display(self, key_str_value):
         self.calculator_engine.chars_process(key_str_value)
-        value_to_display = 0
+        value_to_display = self.calculator_engine.get_value_to_display()
         # THIS DOES NOT WORK, IT DOES NOT RETURN ME VALUE TO DISPLAY!!! IT RETURNS ME, VALUE I PASS TO IT.
         #value_to_display = self.get_value_to_display()
         self.label.set_markup("<big>" + value_to_display + "</big>")
 
-
     def on_click_button(self, button):
         print("Button %s was clicked" % (button.get_label()))
         self.calculate_and_display(button.get_label())
-
 
     def on_key_press_event(self, widget, event):
         keyname = Gdk.keyval_name(event.keyval)
@@ -146,8 +145,8 @@ class CalculatorWindow(Gtk.Window):
 def main():
     calc_engine = CalculatorEngine()
     calc_win = CalculatorWindow(calc_engine)
-    calc_win.show_all()
-    Gtk.main()
+    calc_win.main()
+
     return 0
 
 if __name__ == "__main__":
