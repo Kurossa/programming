@@ -46,13 +46,18 @@ def multi_dot_filter(number_2, char): #filter preventing from appear more than o
 class CalculatorEngine:
 
     def __init__(self):
-        self.alow_numbers = '1234567890.'
-        self.alow_operations = '+-*/='
+        #Calculation variables
+        self.allowed_numbers = '1234567890.'
+        self.allowed_operations = '+-*/='
         self.operation = ''
         self.number_2 = ''
         self.number_1 = ''
         self.result = ''
         self.clear = 'c'
+        # Display variables
+        self.operation_pressed = True
+        self.display = '0'
+
 
     def chars_process(self, str_list):
         for char in str_list:
@@ -61,9 +66,9 @@ class CalculatorEngine:
                 self.number_2 = ''
                 self.number_1 = ''
                 self.result = ''
-            if char in self.alow_numbers: #creating a number
+            if char in self.allowed_numbers: #creating a number
                 self.number_2 = multi_dot_filter(self.number_2, char)
-            if char in self.alow_operations:
+            if char in self.allowed_operations:
                 if self.number_2 == '':
                     self.operation = char
                 else:
@@ -83,36 +88,42 @@ class CalculatorEngine:
                     self.number_2 = ''
         return self.result
 
-def key_value_str():
-        keyboard_input = input(keyboard_filter(str_list))
-        return keyboard_input
+    def chars_process2(self, kb_input, result):
+        kb_input = keyboard_filter(kb_input)
+        for char in kb_input:
+            if char in self.allowed_numbers:
+                if self.operation_pressed:
+                    self.display = ''
+                    self.operation_pressed = False
+                self.display = multi_dot_filter(self.display, char)
+            elif char in self.allowed_operations:
+                if kb_input == '=':
+                    # Calculate result
+                    # sdfsdfdsf
 
+                    # Prepare display value
+                    self.display = result
+                else:
+                    # Calculate result
+                    # sdfsdfdsf
 
-def get_value_to_display(kb_input, result):
-    display = '0'
-    number = ''
-    allow_numbers = '1234567890.'
-    allow_operations = '+-*/='
-    clear = 'c'
+                    # Prepare display value
+                    self.display = char
+                self.operation_pressed = True
+            elif char == self.clear:
+                # Calculate result
+                # sdfsdfdsf
 
-    for char in kb_input:
-        if char in allow_numbers:
-            number += kb_input
-            display = number
-        if char in allow_operations:
-            if kb_input == '=':
-                display = result
-                number = ''
+                # Prepare display value
+                self.display = '0'
+                self.operation_pressed = True
             else:
-                number = ''
-                display = kb_input
-        if char == clear:
-            number = ''
-            display = '0'
-        else:
-            print('Error')
+                print('Error')
 
-        return display, number
+        return self.display
+
+    def get_value_to_display(self):
+        return self.display
 
 
 def main():
