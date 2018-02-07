@@ -68,7 +68,7 @@ class CalculatorEngine:
                     self.number_1 = ''
                     self.result = ''
                     #Prepare display value
-                    self.display = '0'
+                    self.display = '0.0'
                     self.operation_pressed = True
                 if char in self.allowed_numbers: #creating a number
                     #Calculate result
@@ -98,51 +98,49 @@ class CalculatorEngine:
                             if self.number_1 != '':
                                 self.result = calculation(self.number_2, self.number_1, self.operation)
                                 self.number_1 = self.result
-
                             else:
                                 self.number_1 = self.number_2
+                                self.display = self.result
                             self.operation = char
-                            self.display = char
+                        #Prepare to display
+                            #self.display = char
                         self.number_2 = ''
                         self.operation_pressed = True
-
-                #else:
-                    #print('Error')
             return self.result
 
-    def chars_process2(self, kb_input, result):
-        kb_input = keyboard_filter(kb_input)
-        for char in kb_input:
-            if char in self.allowed_numbers:
-                if self.operation_pressed:
-                    self.display = ''
-                    self.operation_pressed = False
-                self.display = multi_dot_filter(self.display, char)
-            elif char in self.allowed_operations:
-                if kb_input == '=':
-                    # Calculate result
-                    # sdfsdfdsf
-
-                    # Prepare display value
-                    self.display = result
-                else:
-                    # Calculate result
-                    # sdfsdfdsf
-
-                    # Prepare display value
-                    self.display = char
-                self.operation_pressed = True
-            elif char == self.clear:
-                # Calculate result
-                # sdfsdfdsf
-
-                # Prepare display value
-                self.display = '0'
-                self.operation_pressed = True
-            else:
-                print('Error')
-
-        return self.display
+    # def chars_process2(self, kb_input, result):
+    #     kb_input = keyboard_filter(kb_input)
+    #     for char in kb_input:
+    #         if char in self.allowed_numbers:
+    #             if self.operation_pressed:
+    #                 self.display = ''
+    #                 self.operation_pressed = False
+    #             self.display = multi_dot_filter(self.display, char)
+    #         elif char in self.allowed_operations:
+    #             if kb_input == '=':
+    #                 # Calculate result
+    #                 # sdfsdfdsf
+    #
+    #                 # Prepare display value
+    #                 self.display = result
+    #             else:
+    #                 # Calculate result
+    #                 # sdfsdfdsf
+    #
+    #                 # Prepare display value
+    #                 self.display = char
+    #             self.operation_pressed = True
+    #         elif char == self.clear:
+    #             # Calculate result
+    #             # sdfsdfdsf
+    #
+    #             # Prepare display value
+    #             self.display = '0'
+    #             self.operation_pressed = True
+    #         else:
+    #             print('Error')
+    #
+    #     return self.display
 
     def get_value_to_display(self):
         return self.display
