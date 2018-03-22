@@ -42,6 +42,16 @@ def multi_dot_filter(number_2, char): #filter preventing from appear more than o
             number_2 += char
     return number_2
 
+def operation_return(char, operation, last_operation):
+
+    if operation != '=':
+        operation = last_operation
+    else:
+        last_operation = operation
+        operation = char
+
+    return operation, last_operation
+
 
 class CalculatorEngine:
 
@@ -50,6 +60,7 @@ class CalculatorEngine:
         self.allowed_numbers = '1234567890.'
         self.allowed_operations = '+-*/='
         self.operation = ''
+        self.last_operation = ''
         self.number_2 = ''
         self.number_1 = ''
         self.result = ''
@@ -64,6 +75,7 @@ class CalculatorEngine:
                 if char == self.clear:  #clearing process if 'c' pressed
                     #Calculate result
                     self.operation = ''
+                    self.last_operation = ''
                     self.number_2 = ''
                     self.number_1 = ''
                     self.result = ''
@@ -101,9 +113,11 @@ class CalculatorEngine:
                             else:
                                 self.number_1 = self.number_2
                                 self.display = self.result
-                            self.operation = char
+                            #self.operation = char
+                            self.operation, self.last_operation = operation_return(char, self.operation, self.last_operation)
+
                         #Prepare to display
-                            #self.display = char
+                            self.display = char
                         self.number_2 = ''
                         self.operation_pressed = True
             return self.result
@@ -147,11 +161,6 @@ class CalculatorEngine:
 
 
 def main():
-
-
-
-
-
 
     # str_1 = '1123..8786.123++234=234===234=234+234='
     # calc = CalculatorEngine()
