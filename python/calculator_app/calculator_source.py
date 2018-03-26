@@ -44,11 +44,15 @@ def multi_dot_filter(number_2, char): #filter preventing from appear more than o
 
 def operation_return(char, operation, last_operation):
 
-    if operation != '=':
+    allowed_operations = '+-*/'
+
+    if operation and char == '=':
         operation = last_operation
-    else:
+    elif operation in allowed_operations:
         last_operation = operation
         operation = char
+    else:
+        print('Error returning operation')
 
     return operation, last_operation
 
@@ -105,7 +109,7 @@ class CalculatorEngine:
                                 self.number_2 = ''
                             #Prepare to display
                                 self.display = char
-                        else: #calculation is done even if +-*/ operations are entered
+                        else:  #calculation is done even if +-*/ operations are entered
                             #Calculate result
                             if self.number_1 != '':
                                 self.result = calculation(self.number_2, self.number_1, self.operation)
@@ -114,12 +118,11 @@ class CalculatorEngine:
                                 self.number_1 = self.number_2
                                 self.display = self.result
                             #self.operation = char
-                            self.operation, self.last_operation = operation_return(char, self.operation, self.last_operation)
-
                         #Prepare to display
                             self.display = char
                         self.number_2 = ''
                         self.operation_pressed = True
+                self.operation, self.last_operation = operation_return(char, self.operation, self.last_operation)
             return self.result
 
     # def chars_process2(self, kb_input, result):
