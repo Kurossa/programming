@@ -48,11 +48,15 @@ def operation_return(char, operation, last_operation):
 
     if operation and char == '=':
         operation = last_operation
-    elif operation in allowed_operations:
-        last_operation = operation
-        operation = char
     else:
-        print('Error returning operation')
+        if operation == '':
+            last_operation = char
+            operation = char
+        else:
+            last_operation = operation
+            operation = char
+    #else:
+    #    print('Error returning operation')
 
     return operation, last_operation
 
@@ -122,7 +126,7 @@ class CalculatorEngine:
                             self.display = char
                         self.number_2 = ''
                         self.operation_pressed = True
-                self.operation, self.last_operation = operation_return(char, self.operation, self.last_operation)
+                    self.operation, self.last_operation = operation_return(char, self.operation, self.last_operation)
             return self.result
 
     # def chars_process2(self, kb_input, result):
@@ -168,7 +172,10 @@ def main():
     # str_1 = '1123..8786.123++234=234===234=234+234='
     # calc = CalculatorEngine()
 
-    str_1 = '54*15-3/*-8=+51=2+3='
+    # str_1 = '54*15-3/*-8=+51=2+3='
+    # calc = CalculatorEngine()
+
+    str_1 = '3+3==3='
     calc = CalculatorEngine()
 
     output2 = calc.chars_process(keyboard_filter(str_1))
