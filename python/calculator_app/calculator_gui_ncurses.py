@@ -94,6 +94,8 @@ class CalculatorWindow():
         try:
             while True:
                 if event > 0 and event < 255:
+                    self.calculator_engine.chars_process(chr(event))
+                    value_to_display = self.calculator_engine.get_value_to_display()
                     key = self.filter_char(chr(event), self.ALLOWED_CHARACTERS)
                     function = self.filter_char(chr(event), self.ALLOWED_FUNCTIONS)
                     if len(function) == 0:
@@ -101,12 +103,12 @@ class CalculatorWindow():
                             self.display_window.shiftText()
                             function_pressed = False
                         text_string += key
-                        self.display_window.putText(text_string)
+                        self.display_window.putText(value_to_display)
                     else:
                         function_pressed = True
                         text_string = ''
                         self.display_window.shiftText()
-                        self.display_window.putText(function)
+                        self.display_window.putText(value_to_display)
 
                     for key_it in self.keys:
                         if key_it.get_key == key:
@@ -133,6 +135,7 @@ class CalculatorWindow():
                     else:
                         """ESC or c button meaning, Clear display. If help Window shown, close it."""
                         text_string = ''
+                        self.calculator_engine.chars_process('c')
                         self.display_window.clear()
                 elif event > 0 and event < 255 and chr(event) == 'q':
                     """q button meaning, Exit app."""

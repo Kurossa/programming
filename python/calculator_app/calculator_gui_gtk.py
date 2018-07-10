@@ -42,7 +42,6 @@ class CalculatorWindow(Gtk.Window):
                           'KP_0' : '0',
                           'equal' : '=',
                           'KP_Divide' : '/',
-                          'KP_2': '2',
                           'KP_Multiply': '*',
                           'KP_Add': '+',
                           'KP_Subtract': '-',
@@ -50,9 +49,9 @@ class CalculatorWindow(Gtk.Window):
                           'KP_Separator' : '.',
                           'plus' : '+',
                           'minus' : '-',
-                          'asteriks' : '*',
+                          'asterisk' : '*',
                           'slash' : '/',
-                          'equal' : '='}
+                          'Escape' : 'c'}
 
     def main(self):
         self.show_all()
