@@ -16,15 +16,16 @@ def year_count(age):
     return str(year)
 
 def main():
-    print("Tell me your age and I'll show you a year of your 100 birthday: ")
-    age = input()
-    if age.isnumeric():
-        year_summary = "Your 100 birthday will be in: " + year_count(age)
-        print(year_summary)
+    #print("Tell me your age and I'll show you a year of your 100 birthday: ")
+    age = input("Tell me your age and I'll show you a year of your 100 birthday: ")
+    while not age.isnumeric():
+        print("Age needs to be a number!")
+        age = input("Tell me your age and I'll show you a year of your 100 birthday: ")
     else:
-        #lines = input("How many times I need to tell you this?: ")
-        print("You need to put numbers only!")
-
+        display_count = input("How many times I need to tell you that?: ")
+        year_count(age)
+        for i in range(int(display_count)):
+            print("You'll be 100 year old in: ", year_count(age))
 
 
 if __name__ == "__main__":
