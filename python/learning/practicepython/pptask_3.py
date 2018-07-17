@@ -18,9 +18,9 @@
 def main():
     list = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
     list_to_add = []
-    number = input("Enter a number. It will show only elements below that number: ")
+    number = int(input("Enter a number. It will show only elements below that number: "))
     for i in list:
-        if i < int(number):
+        if i < number:
             list_to_add.append(i)
 
     print(list_to_add)
