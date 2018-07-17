@@ -10,17 +10,26 @@
 import math
 
 def main():
-    user_number = input("Please, enter number: ")
-    user_number = int(user_number)
+    #user_number = input("Please, enter number: ")
+    #user_number = int(user_number)
     # print(user_number)
     # user_number = int(user_number)
     # print(user_number)
-    if (user_number/4).is_integer():
-        print("The number you've passed is even and multiple of 4.")
-    elif (user_number/2).is_integer():
-        print("The number you've passed is even.")
+    # if (user_number/4).is_integer():
+    #     print("The number you've passed is even and multiple of 4.")
+    # elif (user_number/2).is_integer():
+    #     print("The number you've passed is even.")
+    # else:
+    #     print("The number you've passed is odd.")
+
+    num = input("Please enter a check number: ")
+    divide = input("Please enter a divide number: ")
+    num = int(num)
+    divide = int(divide)
+    if (num/divide).is_integer():
+        print("The number you've passed is divided by ",divide)
     else:
-        print("The number you've passed is odd.")
+        print("The number you've passed is not didided by ",divide)
 
 
 if __name__ == "__main__":
