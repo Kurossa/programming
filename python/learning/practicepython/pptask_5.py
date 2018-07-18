@@ -21,9 +21,9 @@ def main():
     list_a = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
     list_to_compare = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
 
-    random_list_a = long.random.randrange(1,100)
+    empty_list = []
+    random_list_a = random.randrange(empty_list.append(random.randrange))
     list_of_same_num = []
-
 
 
     for every_elm in list_a:
