@@ -5,9 +5,26 @@
 
 
 def main():
-    number = print("Enter a number: ")
+    num = int(input("Enter a number: "))
+    # work_num = number
+    # div_list = []
+    # while work_num.is_integer():
+    #     #print(number)
+    #     div_list.append(work_num)
+    #     work_num = float(work_num/2)
+    #
+    # print("List of divisors of number",number, div_list[1:])
 
-    while 
+    list_range = list(range(1, num + 1))
+
+    divisor_list = []
+
+    for number in list_range:
+        if num % number == 0:
+            divisor_list.append(number)
+
+    print(divisor_list)
+
 
 if __name__ == "__main__":
     main()
