@@ -6,28 +6,31 @@ import sys
 
 def main():
 
+    host = ""
+    port = 8888
+
+
     try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #create a socket
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     except socket.error as msg:
-        print("Failed to create socket. Error code: " +str(msg[0])+ "Error message: " +str(msg[1]))
+        print("Failed to create socket. Error code: " + str(msg[0]) + " Message " + str(msg[1]))
         sys.exit()
 
-    print("Socket created ")
-
-    host = "www.google.com"
-    port = 80
+    print("Socket created")
 
     try:
-        remote_ip = socket.gethostbyname(host)
-    except socket.gaierror:
-        print("Host name could not be resolved. Exiting")
-        sys.exit()
+        s.bind((host, port))
+    except socket.error as msg:
+        print("Bind failed. Error code: " + str(msg[0]) + " Message " + str(msg[1]))
 
-    print("Ip address of " +host + " is " +remote_ip)
+    print("Socked bind complete")
 
-    s.connect(remote_ip, port) #Connect to remote server
+    s.listen(10)
+    print("Socket is now listening")
 
-    print('Socket connected to ' + host + "on ip" + remote_ip)
+    conn, addr = s.accept() #waiting to accept connection
+
+    print("Connected with " + addr[0] + " : " + str(addr[1]))
 
 if __name__ == "__main__":
     main()
