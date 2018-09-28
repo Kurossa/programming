@@ -2,6 +2,7 @@
 
 import socket
 import sys
+from _thread import *
 
 
 def main():
@@ -28,26 +29,28 @@ def main():
     s.listen(10)
     print("Socket is now listening")
 
-    #reply = "".encode()
-    #server running non stop
+    def clientthread(conn):
+
+        #Message sended to the connected client
+        conn.send(("Welcome to the server. Type something and hit Enter\n").decode())
+        while True:
+            data = conn.recv(2048).decode()
+            reply = ("Server says: ") + data
+            if not data:
+                break
+
+            conn.send(reply.encode())
+
+        conn.close()
+
+
     while 1:
         conn, addr = s.accept() #waiting to accept connection
 
         print("Connected with " + addr[0] + " : " + str(addr[1]))
-        #talking with client
-        data = conn.recv(2048).decode()
-        reply = ("Server says: ") + data
-        if not data:
-            break
+        start_new_thread(clientthread(conn))
 
-        conn.send(reply.encode())
 
-    # conn, addr = s.accept()
-    # print("Connected with " + addr[0] + " : " + str(addr[1]))
-    # data = conn.recv(1024)
-    # conn.sendall(data)
-
-    conn.close()
     s.close()
 
 if __name__ == "__main__":
