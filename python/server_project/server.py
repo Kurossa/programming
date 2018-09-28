@@ -28,9 +28,27 @@ def main():
     s.listen(10)
     print("Socket is now listening")
 
-    conn, addr = s.accept() #waiting to accept connection
+    #reply = "".encode()
+    #server running non stop
+    while 1:
+        conn, addr = s.accept() #waiting to accept connection
 
-    print("Connected with " + addr[0] + " : " + str(addr[1]))
+        print("Connected with " + addr[0] + " : " + str(addr[1]))
+        #talking with client
+        data = conn.recv(2048).decode()
+        reply = ("Server says: ") + data
+        if not data:
+            break
+
+        conn.send(reply.encode())
+
+    # conn, addr = s.accept()
+    # print("Connected with " + addr[0] + " : " + str(addr[1]))
+    # data = conn.recv(1024)
+    # conn.sendall(data)
+
+    conn.close()
+    s.close()
 
 if __name__ == "__main__":
     main()
